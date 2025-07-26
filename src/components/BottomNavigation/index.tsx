@@ -15,10 +15,10 @@ const navItems: NavItem[] = [
 export const BottomNavigation: React.FC = () => {
   return (
     <nav
-      className="fixed bottom-0 left-0 w-full bg-gray-900"
+      className="fixed bottom-10 inset-x-4 bg-gray-900 rounded-xl safe-bottom overflow-hidden"
       aria-label="Основная навигация"
     >
-      <ul className="flex h-20">
+      <ul className="flex h-16">
         {navItems.map(({ to, Icon, label }) => (
           <li key={to} className="flex-1">
             <NavLink
@@ -33,7 +33,7 @@ export const BottomNavigation: React.FC = () => {
               }
               aria-label={label}
             >
-              <Icon size={32} />
+              <Icon size={28} />
             </NavLink>
           </li>
         ))}

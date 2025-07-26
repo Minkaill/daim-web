@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="p-5 pb-30 w-full">
+    <div className="p-5 w-full">
       {children}
 
       <BottomNavigation />
