@@ -11,19 +11,8 @@ html {
   height: 100%;
 }
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  font-size: 110%;
-  box-sizing: border-box;
-  /* background-color: #202020; */
   background-color: #0a0a0a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Lausanne", "Monument Extended", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto;
+  font-family: "Inter", sans-serif;
 }
 
 body {
@@ -38,11 +27,25 @@ body::before {
   top: -10rem;
   width: calc(100% + 20rem);
   height: calc(100% + 20rem);
-  /* background-color: red; */
   background-image: url("/public/noise.png");
   opacity: 0.65;
   pointer-events: none;
   animation: noise 1s steps(2) infinite;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+
+  background: radial-gradient(
+    circle at 5% 50%,
+    rgba(255, 235, 0, 0.15) 0%,
+    rgba(255, 235, 0, 0.05) 40%,
+    transparent 80%
+  );
 }
 
 @-webkit-keyframes noise {
