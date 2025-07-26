@@ -36,13 +36,13 @@ export const Products = () => {
           key={product.id}
           className="bg-gray-900 flex items-start opacity-85 w-full h-30 rounded-lg p-3 active:bg-gray-800 transition-all 0.2 ease-in-out"
         >
-          <div className="min-w-20 h-full rounded-lg overflow-hidden mr-4">
+          {/* <div className="min-w-20 h-full rounded-lg overflow-hidden mr-4">
             <img
               className="w-full h-full object-cover object-[50%_70%]"
               src={product.image}
               alt={product.title}
             />
-          </div>
+          </div> */}
 
           <div className="h-full flex flex-col justify-between">
             <h4 className="text-base text-white font-bold">{product.title}</h4>
