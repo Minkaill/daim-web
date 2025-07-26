@@ -46,6 +46,11 @@ body::after {
   );
 }
 
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 @-webkit-keyframes noise {
   to {
     transform: translate3d(-7rem, 0, 0);
