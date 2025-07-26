@@ -15,7 +15,7 @@ const navItems: NavItem[] = [
 export const BottomNavigation: React.FC = () => {
   return (
     <nav
-      className="fixed bottom-10 inset-x-4 bg-gray-900 rounded-xl safe-bottom overflow-hidden"
+      className="fixed bottom-10 inset-x-4 bg-gray-900 rounded-xl overflow-hidden"
       aria-label="Основная навигация"
     >
       <ul className="flex h-16">
