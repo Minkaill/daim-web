@@ -15,7 +15,7 @@ export const Profile = () => {
   const { items, loading } = useCart();
 
   return (
-    <div className="w-full flex flex-col gap-5">
+    <div className="w-full flex flex-col gap-4">
       <div className="w-full flex bg-gray-900 rounded-lg flex-col items-center justify-center p-3">
         <div className="rounded-full overflow-hidden w-28">
           <img src={user.photo_url} alt={user.first_name} />
