@@ -1,7 +1,7 @@
 import { openDB, type IDBPDatabase } from "idb";
 
 export interface CartItem {
-  id: string;
+  id: number;
   title: string;
   price: number;
   quantity: number;
@@ -31,7 +31,7 @@ export async function upsertCartItem(item: CartItem) {
   await db.put(STORE_NAME, item);
 }
 
-export async function deleteCartItem(id: string) {
+export async function deleteCartItem(id: number) {
   const db = await getDB();
   await db.delete(STORE_NAME, id);
 }

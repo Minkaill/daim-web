@@ -1,5 +1,7 @@
 import { ShoppingCart, User } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { useCartStore } from "../../stores/cart";
 
 interface NavItem {
   to: string;
@@ -13,10 +15,23 @@ const navItems: NavItem[] = [
 ];
 
 export const BottomNavigation: React.FC = () => {
+  const { items } = useCartStore();
+
+  const navVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+  };
+
   return (
-    <nav
+    <motion.nav
       className="fixed bottom-10 inset-x-4 bg-gray-900 rounded-xl overflow-hidden"
       aria-label="Основная навигация"
+      initial="hidden"
+      animate="visible"
+      variants={navVariants}
     >
       <ul className="flex h-16">
         {navItems.map(({ to, Icon, label }) => (
@@ -25,8 +40,7 @@ export const BottomNavigation: React.FC = () => {
               to={to}
               className={({ isActive }) =>
                 [
-                  "flex h-full items-center justify-center",
-                  "transition-colors duration-200 ease-in-out",
+                  "flex h-full items-center justify-center transition-colors duration-200 ease-in-out",
                   isActive ? "bg-gray-950" : "bg-transparent",
                   "hover:bg-gray-800 focus:bg-gray-800",
                 ].join(" ")
@@ -35,16 +49,41 @@ export const BottomNavigation: React.FC = () => {
             >
               <div className="relative">
                 <Icon size={28} />
-                {label === "Профиль" && (
-                  <div className="absolute text-xs bottom-3 left-4 bg-yellow-600 rounded-full flex items-center justify-center w-[20px] h-[20px]">
-                    12
-                  </div>
+
+                {to === "/profile" && (
+                  <AnimatePresence>
+                    {items.length > 0 && (
+                      <motion.div
+                        key={items.length}
+                        className="
+                          absolute bottom-3 left-4
+                          w-5 h-5
+                          flex items-center justify-center
+                          text-xs text-black
+                          bg-yellow-400 rounded-full
+                        "
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 25,
+                        }}
+                        aria-label={`В корзине ${items.length} ${
+                          items.length === 1 ? "товар" : "товара"
+                        }`}
+                      >
+                        {items.length}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 )}
               </div>
             </NavLink>
           </li>
         ))}
       </ul>
-    </nav>
+    </motion.nav>
   );
 };

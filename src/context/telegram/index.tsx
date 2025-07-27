@@ -18,7 +18,7 @@ const TelegramContext = createContext<TelegramContextType | null>(null);
 export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const [tg, setTg] = useState<typeof TelegramWebApp | null>(null);
   const [user, setUser] = useState<WebAppUserType | null>(null);
-  const [isReady, setIsReady] = useState(false);
+  // const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const webApp = TelegramWebApp;
@@ -35,12 +35,12 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     }
 
     setTg(webApp);
-    setIsReady(true);
+    // setIsReady(true)
   }, []);
 
-  if (!isReady) {
-    return <div>Loading...</div>;
-  }
+  // if (!isReady) {
+  //   return <div>Loading...</div>;
+  // }
 
   // if (!user) {
   //   return <div>Authorization required</div>;
