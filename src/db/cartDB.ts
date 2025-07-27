@@ -1,11 +1,5 @@
 import { openDB, type IDBPDatabase } from "idb";
-
-export interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  quantity: number;
-}
+import type { CartItem } from "../models/cart";
 
 const DB_NAME = "tg-miniapp";
 const STORE_NAME = "cart";
