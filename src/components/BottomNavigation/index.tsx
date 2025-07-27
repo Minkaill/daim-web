@@ -33,7 +33,14 @@ export const BottomNavigation: React.FC = () => {
               }
               aria-label={label}
             >
-              <Icon size={28} />
+              <div className="relative">
+                <Icon size={28} />
+                {label === "Профиль" && (
+                  <div className="absolute text-xs bottom-3 left-4 bg-yellow-600 rounded-full flex items-center justify-center w-[20px] h-[20px]">
+                    12
+                  </div>
+                )}
+              </div>
             </NavLink>
           </li>
         ))}
