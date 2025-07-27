@@ -20,8 +20,6 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<WebAppUserType | null>(null);
   const [isReady, setIsReady] = useState(false);
 
-  console.log(isReady);
-
   useEffect(() => {
     const webApp = TelegramWebApp;
 
@@ -40,9 +38,9 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     setIsReady(true);
   }, []);
 
-  // if (!isReady) {
-  //   return <div>Loading...</div>;
-  // }
+  if (!isReady) {
+    return <div>Loading...</div>;
+  }
 
   // if (!user) {
   //   return <div>Authorization required</div>;

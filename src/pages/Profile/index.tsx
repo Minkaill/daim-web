@@ -1,3 +1,7 @@
+import { useTelegram } from "../../context/telegram";
+
 export const Profile = () => {
-  return <div>Profile</div>;
+  const context = useTelegram()
+  console.log(context)
+  return <div>{JSON.stringify(context.user)}</div>;
 };
