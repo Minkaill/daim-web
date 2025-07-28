@@ -53,7 +53,7 @@ export const Profile: React.FC = () => {
       animate="visible"
     >
       <motion.div
-        className="bg-gray-900 rounded-lg flex flex-col items-center p-4"
+        className="bg-gray-900 rounded-xl flex flex-col items-center p-4"
         variants={blockVariants}
       >
         <img
@@ -61,34 +61,29 @@ export const Profile: React.FC = () => {
           alt={user.first_name}
           className="w-28 h-28 rounded-full mb-3"
         />
-        <div className="flex items-center gap-2">
+        <div className="font-bold">
           <h4 className="text-lg text-white">
             {user.first_name} {user.last_name}
           </h4>
-          {user.is_premium && (
-            <img src="/premium.svg" alt="premium" className="w-5 h-5" />
-          )}
+        </div>
+
+        <div className="w-full flex items-center justify-center gap-4 mt-3 bg-gray-800 p-3 rounded-xl">
+          <div className="flex flex-col items-center justify-center">
+            <span className="text-sm font-bold text-yellow-600">0</span>
+            <p className="text-gray-500 mt-[-5px]">Куплено</p>
+          </div>
+
+          <div className="h-4 border border-r text-gray-700" />
+
+          <div className="flex flex-col items-center justify-center">
+            <span className="text-sm font-bold text-yellow-600">0%</span>
+            <p className="text-gray-500 mt-[-5px]">Скидка</p>
+          </div>
         </div>
       </motion.div>
 
       <motion.div
-        className="bg-gray-900 rounded-lg flex space-x-4 p-4"
-        variants={blockVariants}
-      >
-        <div className="flex-1 bg-gray-800 p-3 rounded-lg text-center">
-          <p className="text-sm text-gray-300">Кол-во покупок</p>
-          <span className="text-yellow-600 font-bold">{items.length}</span>
-        </div>
-        <div className="flex-1 bg-gray-800 p-3 rounded-lg text-center">
-          <p className="text-sm text-gray-300">Скидка</p>
-          <span className="text-yellow-600 font-bold">
-            {Math.min(items.length, 50)}%
-          </span>
-        </div>
-      </motion.div>
-
-      <motion.div
-        className="bg-gray-900 rounded-lg p-3 flex flex-col"
+        className="bg-gray-900 rounded-xl p-3 flex flex-col"
         variants={blockVariants}
       >
         {items.length > 0 && (
@@ -140,13 +135,29 @@ export const Profile: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className="bg-gray-900 rounded-lg p-3"
+          className="bg-gray-900 rounded-xl p-3"
         >
-          <div className="w-full flex items-center justify-between bg-gray-800 p-3 rounded-lg">
+          <div className="w-full flex items-center justify-between bg-gray-800 p-3 rounded-xl">
             <h4 className="text-lg">Итого:</h4>
 
             <AnimatedNumber value={totalPrice} />
           </div>
+        </motion.div>
+      )}
+
+      {items.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, duration: 1.0 }}
+          className="bg-gray-900 w-full rounded-xl p-3 text-lg"
+        >
+          <motion.button
+            role="button"
+            className="p-3 bg-yellow-600 rounded-xl w-full cursor-pointer"
+          >
+            Сделать заказ
+          </motion.button>
         </motion.div>
       )}
     </motion.div>
