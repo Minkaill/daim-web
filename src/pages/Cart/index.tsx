@@ -111,7 +111,7 @@ export const Cart = () => {
       {items.length > 0 && (
         <motion.div
           className={`w-full bg-gray-800 ${
-            isMobile ? "h-20" : "h-28"
+            isMobile ? "h-28" : "h-20"
           } p-3 fixed bottom-0 left-0`}
         >
           <motion.button
