@@ -4,6 +4,7 @@ import { ShoppingBag } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCartStore } from "../../stores/cart";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTelegram } from "../../context/telegram";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,6 +13,7 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const [navHeight, setNavHeight] = useState(0);
 
+  const { isMobile } = useTelegram();
   const navigate = useNavigate();
   const location = useLocation();
   const navRef = useRef<HTMLDivElement>(null);
@@ -30,7 +32,9 @@ export const Layout = ({ children }: LayoutProps) => {
       {location.pathname !== "/cart" && (
         <div
           onClick={() => navigate("/cart")}
-          className="fixed bottom-24 right-5 bg-gray-800 w-13 h-13 flex items-center justify-center rounded-full cursor-pointer"
+          className={`fixed ${
+            !isMobile ? "bottom-28" : "bottom-24"
+          } right-5 bg-gray-800 w-13 h-13 flex items-center justify-center rounded-full cursor-pointer`}
         >
           <ShoppingBag />
 
