@@ -3,6 +3,7 @@ import { BottomNavigation } from "../BottomNavigation";
 import { ShoppingBag } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCartStore } from "../../stores/cart";
+import { useNavigate } from "react-router-dom";
 
 interface LayoutProps {
   children: ReactNode;
@@ -11,6 +12,7 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const [navHeight, setNavHeight] = useState(0);
 
+  const navigate = useNavigate();
   const navRef = useRef<HTMLDivElement>(null);
   const { items } = useCartStore();
 
@@ -24,7 +26,10 @@ export const Layout = ({ children }: LayoutProps) => {
     <div className="p-5 w-full" style={{ paddingBottom: navHeight }}>
       {children}
 
-      <div className="fixed bottom-24 right-5 bg-gray-800 w-13 h-13 flex items-center justify-center rounded-full cursor-pointer">
+      <div
+        onClick={() => navigate("/cart")}
+        className="fixed bottom-24 right-5 bg-gray-800 w-13 h-13 flex items-center justify-center rounded-full cursor-pointer"
+      >
         <ShoppingBag />
 
         <AnimatePresence>
