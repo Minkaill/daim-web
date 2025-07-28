@@ -11,6 +11,8 @@ import type { WebAppUserType } from "../../models/telegram";
 export interface TelegramContextType {
   tg: typeof TelegramWebApp | null;
   user: WebAppUserType | null;
+  platform: string | null;
+  isMobile: boolean;
 }
 
 const TelegramContext = createContext<TelegramContextType | null>(null);
@@ -18,45 +20,38 @@ const TelegramContext = createContext<TelegramContextType | null>(null);
 export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const [tg, setTg] = useState<typeof TelegramWebApp | null>(null);
   const [user, setUser] = useState<WebAppUserType | null>(null);
-  // const [isReady, setIsReady] = useState(false);
+  const [platform, setPlatform] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
     const webApp = TelegramWebApp;
 
-    if (webApp.ready) {
-      webApp.ready();
-    }
-
+    webApp.ready();
     webApp.expand();
 
-    const initData = webApp.initDataUnsafe;
-    if (initData && initData.user) {
-      setUser(initData.user);
+    const init = webApp.initDataUnsafe;
+    if (init?.user) {
+      setUser(init.user);
     }
 
+    const p = webApp.platform ?? null;
+    setPlatform(p);
+    setIsMobile(p === "android" || p === "ios");
+
     setTg(webApp);
-    // setIsReady(true)
   }, []);
 
-  // if (!isReady) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (!user) {
-  //   return <div>Authorization required</div>;
-  // }
-
   return (
-    <TelegramContext.Provider value={{ tg, user }}>
+    <TelegramContext.Provider value={{ tg, user, platform, isMobile }}>
       {children}
     </TelegramContext.Provider>
   );
 };
 
 export const useTelegram = () => {
-  const context = useContext(TelegramContext);
-  if (!context) {
+  const ctx = useContext(TelegramContext);
+  if (!ctx) {
     throw new Error("useTelegram must be used within TelegramProvider");
   }
-  return context;
+  return ctx;
 };

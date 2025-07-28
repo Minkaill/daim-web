@@ -2,6 +2,7 @@ import { ShoppingCart, User } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { forwardRef } from "react";
+import { useTelegram } from "../../context/telegram";
 
 interface NavItem {
   to: string;
@@ -15,6 +16,7 @@ const navItems: NavItem[] = [
 ];
 
 export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
+  const { isMobile } = useTelegram();
   const navVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.5 } },
@@ -29,14 +31,14 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
       animate="visible"
       variants={navVariants}
     >
-      <ul className="flex h-20">
+      <ul className={`flex ${isMobile ? "h-28" : "h-20"}`}>
         {navItems.map(({ to, Icon, label }) => (
           <li key={to} className="flex-1">
             <NavLink
               to={to}
               className={({ isActive }) =>
                 [
-                  "flex border-t border-gray-800 h-full items-center justify-center transition-colors duration-200 ease-in-out",
+                  "flex border-t border-gray-800 pt-3 items-center justify-center transition-colors duration-200 ease-in-out",
                   isActive ? "text-white" : "text-gray-400",
                 ].join(" ")
               }

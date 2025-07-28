@@ -34,7 +34,7 @@ const listVariants = {
 export const Cart = () => {
   const navigate = useNavigate();
   const { items, loading, clearAll, getTotal } = useCartStore();
-  const { tg } = useTelegram();
+  const { tg, isMobile } = useTelegram();
 
   const totalPrice = getTotal();
 
@@ -109,7 +109,11 @@ export const Cart = () => {
       </motion.div>
 
       {items.length > 0 && (
-        <motion.div className="w-full bg-gray-800 h-28 p-3 fixed bottom-0 left-0">
+        <motion.div
+          className={`w-full bg-gray-800 ${
+            isMobile ? "h-20" : "h-28"
+          } p-3 fixed bottom-0 left-0`}
+        >
           <motion.button
             disabled={items.length === 0}
             className="w-full bg-[#50A7EA] disabled:opacity-60 disabled:cursor-no-drop disabled:pointer-events-none flex items-center justify-center gap-1 h-14 rounded-xl text-lg px-3"
