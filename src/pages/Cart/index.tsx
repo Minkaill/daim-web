@@ -109,10 +109,10 @@ export const Cart = () => {
       </motion.div>
 
       {items.length > 0 && (
-        <motion.div className="w-full bg-gray-800 h-18 p-3 fixed bottom-0 left-0">
+        <motion.div className="w-full bg-gray-800 h-28 p-3 fixed bottom-0 left-0">
           <motion.button
             disabled={items.length === 0}
-            className="w-full bg-[#50A7EA] disabled:opacity-60 disabled:cursor-no-drop disabled:pointer-events-none flex items-center justify-center gap-1 h-full rounded-xl text-lg px-3"
+            className="w-full bg-[#50A7EA] disabled:opacity-60 disabled:cursor-no-drop disabled:pointer-events-none flex items-center justify-center gap-1 h-14 rounded-xl text-lg px-3"
           >
             К оплате{" "}
             <AnimatedNumber value={totalPrice} color="text-white font-normal" />
