@@ -1,8 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useCartStore } from "../../stores/cart";
-import { CartItem } from "../../components/CartItem";
-import { AnimatedNumber } from "../../components/AnimatedNumber";
 
 const user = {
   id: 5605356109,
@@ -30,21 +27,7 @@ const blockVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
-const listVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3,
-    },
-  },
-};
-
 export const Profile: React.FC = () => {
-  const { items, getTotal, loading, clearAll } = useCartStore();
-
-  const totalPrice = getTotal();
-
   return (
     <motion.div
       className="w-full flex flex-col gap-3"
@@ -82,7 +65,7 @@ export const Profile: React.FC = () => {
         </div>
       </motion.div>
 
-      <motion.div
+      {/* <motion.div
         className="bg-gray-900 rounded-xl p-3 flex flex-col"
         variants={blockVariants}
       >
@@ -159,7 +142,7 @@ export const Profile: React.FC = () => {
             Сделать заказ
           </motion.button>
         </motion.div>
-      )}
+      )} */}
     </motion.div>
   );
 };

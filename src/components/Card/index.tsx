@@ -52,7 +52,7 @@ export const Card: React.FC<CardProps> = ({ product }) => {
         <p className="text-xs text-gray-300">{product.description}</p>
         <div className="flex items-center gap-4">
           <span className="text-white">{product.price}₽</span>
-          <span className="bg-yellow-600 p-1 text-xs rounded-xl text-white">
+          <span className="bg-yellow-600 py-1 px-1.5 text-xs rounded-xl text-white">
             {product.volume}
           </span>
         </div>
