@@ -31,7 +31,7 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
       animate="visible"
       variants={navVariants}
     >
-      <ul className={`flex ${!isMobile ? "h-24" : "h-20"}`}>
+      <ul className={`flex ${isMobile ? "h-24" : "h-20"}`}>
         {navItems.map(({ to, Icon, label }) => (
           <li key={to} className="flex-1">
             <NavLink

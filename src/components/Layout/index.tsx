@@ -33,7 +33,7 @@ export const Layout = ({ children }: LayoutProps) => {
         <div
           onClick={() => navigate("/cart")}
           className={`fixed ${
-            !isMobile ? "bottom-28" : "bottom-24"
+            isMobile ? "bottom-28" : "bottom-24"
           } right-5 bg-gray-800 w-13 h-13 flex items-center justify-center rounded-full cursor-pointer`}
         >
           <ShoppingBag />
