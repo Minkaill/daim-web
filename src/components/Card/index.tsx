@@ -58,7 +58,7 @@ export const Card: React.FC<CardProps> = ({ product }) => {
           <span className=" bg-yellow-600 py-1 px-1.5 text-xs rounded-xl text-white">
             {product.volume}
           </span>
-          <span className="shimmer bg-red-600 py-1 px-1.5 text-xs rounded-xl text-white">
+          <span className="shimmer overflow-hidden bg-red-600 py-1 px-1.5 text-xs rounded-xl text-white">
             250₽ от 20шт
           </span>
         </div>

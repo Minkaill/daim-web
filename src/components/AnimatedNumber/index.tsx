@@ -19,17 +19,19 @@ export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
 }) => {
   const motionVal = useMotionValue(value);
   const springVal = useSpring(motionVal, { stiffness: 100, damping: 20 });
-  const [displayValue, setDisplayValue] = useState(value);
+  const [displayValue, setDisplayValue] = useState<number>(value);
 
   useEffect(() => {
-    motionVal.set(value);
-  }, [value, motionVal]);
+    springVal.set(Number(value));
+  }, [value, springVal]);
 
   useEffect(() => {
-    const unsubscribe = springVal.on("change", (latest: number) => {
-      setDisplayValue(Math.round(latest));
+    const unsub = springVal.on("change", (latest: number) => {
+      if (Number.isFinite(latest)) {
+        setDisplayValue(Math.round(latest));
+      }
     });
-    return () => unsubscribe();
+    return () => unsub();
   }, [springVal]);
 
   return (
