@@ -53,7 +53,7 @@ body::after {
   position: relative;
   display: inline-flex;
   align-items: center;
-  overflow: hidden;
+  overflow: hidden !important;
   isolation: isolate;
 }
 
@@ -63,6 +63,7 @@ body::after {
   inset: 0;
   width: 50%;
   transform: translateX(-140%);
+  overflow: hidden !important;
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0) 0%,
