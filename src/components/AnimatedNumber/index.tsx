@@ -1,8 +1,6 @@
 import {
-  AnimatePresence,
   useMotionValue,
   useSpring,
-  motion,
 } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -14,7 +12,6 @@ interface AnimatedNumberProps {
 
 export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
   value,
-  quantity,
   color,
 }) => {
   const motionVal = useMotionValue(value);
@@ -40,7 +37,7 @@ export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
         {displayValue}₽
       </p>
 
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {quantity && quantity >= 20 && (
           <motion.span
             className="text-green-600 font-bold"
@@ -52,7 +49,7 @@ export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
             (-28%)
           </motion.span>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 };

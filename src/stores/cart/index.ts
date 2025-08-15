@@ -19,6 +19,22 @@ interface CartStore extends CartState {
   getTotal: () => number;
 }
 
+const TIERS = [0, 20, 100, 500, 1000, 2000] as const;
+
+const nextTier = (qty: number) => {
+  for (let i = 0; i < TIERS.length; i++) {
+    if (qty < TIERS[i]) return TIERS[i];
+  }
+  return TIERS[TIERS.length - 1];
+};
+
+const prevTier = (qty: number) => {
+  for (let i = TIERS.length - 1; i >= 0; i--) {
+    if (qty > TIERS[i]) return TIERS[i];
+  }
+  return TIERS[0];
+};
+
 const initialState: CartState = {
   items: [],
   loading: true,
@@ -33,37 +49,45 @@ export const useCartStore = create<CartStore>((set, get) => {
     ...initialState,
 
     addItem: async (item) => {
-      await upsertCartItem(item);
-      set((state) => {
-        const exists = state.items.find((x) => x.id === item.id);
-        if (exists) {
-          return {
-            items: state.items.map((x) =>
-              x.id === item.id ? { ...x, quantity: x.quantity + 1 } : x
-            ),
-          };
-        }
-        return { items: [...state.items, item] };
-      });
+      const { items } = get();
+      const exists = items.find((x) => x.id === item.id);
+
+      if (exists) {
+        const newQty = nextTier(exists.quantity);
+        if (newQty === exists.quantity) return;
+
+        const updated = { ...exists, quantity: newQty };
+        await upsertCartItem(updated);
+
+        set({
+          items: items.map((x) => (x.id === item.id ? updated : x)),
+        });
+        return;
+      }
+
+      const startQty = 20;
+      const toSave = { ...item, quantity: startQty };
+      await upsertCartItem(toSave);
+      set({ items: [...items, toSave] });
     },
 
     removeItem: async (id) => {
-      await deleteCartItem(id);
-      set((state) => {
-        const found = state.items.find((item) => item.id === id);
-        if (!found) {
-          return {};
-        }
-        if (found.quantity > 1) {
-          return {
-            items: state.items.map((item) =>
-              item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-            ),
-          };
-        }
-        return {
-          items: state.items.filter((item) => item.id !== id),
-        };
+      const { items } = get();
+      const found = items.find((x) => x.id === id);
+      if (!found) return;
+
+      const newQty = prevTier(found.quantity);
+
+      if (newQty === 0) {
+        await deleteCartItem(id);
+        set({ items: items.filter((x) => x.id !== id) });
+        return;
+      }
+
+      const updated = { ...found, quantity: newQty };
+      await upsertCartItem(updated);
+      set({
+        items: items.map((x) => (x.id === id ? updated : x)),
       });
     },
 
@@ -74,9 +98,6 @@ export const useCartStore = create<CartStore>((set, get) => {
 
     getTotal: () => {
       return get().items.reduce((sum, x) => {
-        if (x.quantity >= 20) {
-          return sum + x.discountPrice * x.quantity;
-        }
         return sum + x.price * x.quantity;
       }, 0);
     },
