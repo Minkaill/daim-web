@@ -92,7 +92,14 @@ export const Cart = () => {
           >
             <img src="/empty-cart.png" className="w-50 h-50" alt="" />
 
-            <h4 className="font-bold text-lg">Упс! Негодниц то нет!</h4>
+            <h4 className="font-bold text-lg">Упс! Ваша корзина пуста!</h4>
+
+            <button
+              className="bg-gray-800 w-full rounded-xl py-3 mt-5 cursor-pointer"
+              onClick={() => navigate("/products")}
+            >
+              Вернуться
+            </button>
           </motion.div>
         ) : (
           <motion.ul

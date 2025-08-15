@@ -14,7 +14,9 @@ const itemVariants = {
 };
 
 export const CartItem = ({ product }: CartProps) => {
-  const { addItem, removeItem } = useCartStore();
+  const { addItem, removeItem, getTotal } = useCartStore();
+
+  const totalPrice = getTotal();
 
   return (
     <motion.li
@@ -32,7 +34,7 @@ export const CartItem = ({ product }: CartProps) => {
       <div className="flex-1">
         <h6 className="text-white font-medium">{product.title}</h6>
         <p className="text-gray-400 text-xs">Кол-во: {product.quantity}</p>
-        <AnimatedNumber value={product.price * product.quantity} />
+        <AnimatedNumber quantity={product.quantity} value={totalPrice} />
       </div>
 
       <div className="flex items-center gap-2.5">

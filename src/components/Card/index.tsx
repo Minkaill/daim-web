@@ -27,6 +27,7 @@ export const Card: React.FC<CardProps> = ({ product }) => {
         title: product.title,
         price: product.price,
         image: product.image,
+        discountPrice: product.discountPrice,
         quantity: 1,
       });
     }
@@ -41,7 +42,7 @@ export const Card: React.FC<CardProps> = ({ product }) => {
     >
       <div className="w-20 flex-shrink-0 h-full rounded-xl overflow-hidden mr-4">
         <img
-          className="w-full h-full object-cover object-[50%_70%]"
+          className="w-full h-full object-cover object-[150%_70%]"
           src={product.image}
           alt={product.title}
         />
@@ -51,9 +52,14 @@ export const Card: React.FC<CardProps> = ({ product }) => {
         <h4 className="text-base text-white font-bold">{product.title}</h4>
         <p className="text-xs text-gray-300">{product.description}</p>
         <div className="flex items-center gap-4">
-          <span className="text-white">{product.price}₽</span>
-          <span className="bg-yellow-600 py-1 px-1.5 text-xs rounded-xl text-white">
+          <span className=" bg-green-600 py-1 px-1.5 text-xs rounded-xl text-white">
+            {product.price}₽
+          </span>
+          <span className=" bg-yellow-600 py-1 px-1.5 text-xs rounded-xl text-white">
             {product.volume}
+          </span>
+          <span className="shimmer bg-red-600 py-1 px-1.5 text-xs rounded-xl text-white">
+            250₽ от 20шт
           </span>
         </div>
       </div>
