@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 import { CartItem } from "../../components/CartItem";
 import { AnimatedNumber } from "../../components/AnimatedNumber";
 import { CartEmpty } from "../../components/CartEmpty";
+import { getPrice } from "../../hooks/product";
 
 const containerVariants = {
   hidden: {},
@@ -34,10 +35,12 @@ const listVariants = {
 
 export const Cart = () => {
   const navigate = useNavigate();
-  const { items, loading, clearAll, getTotal } = useCartStore();
+  const { items, loading, clearAll } = useCartStore();
   const { tg, isMobile } = useTelegram();
 
-  const totalPrice = getTotal();
+  const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
+  const unitPrice = getPrice(totalQuantity);
+  const totalPrice = unitPrice * totalQuantity;
 
   useEffect(() => {
     if (!tg) return;
