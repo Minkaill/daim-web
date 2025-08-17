@@ -2,7 +2,6 @@ export interface IProduct {
   id: number;
   title: string;
   description: string;
-  prices: Prices[];
   volume: string;
   image: string;
 }

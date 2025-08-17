@@ -96,7 +96,7 @@ export const Cart = () => {
             animate="visible"
           >
             {items.map((product) => (
-              <CartItem product={product} />
+              <CartItem key={product.id} product={product} />
             ))}
           </motion.ul>
         )}

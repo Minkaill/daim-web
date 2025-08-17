@@ -87,7 +87,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
           <motion.div
             ref={backdropRef}
             onMouseDown={handleBackdropMouseDown}
-            className="fixed inset-0 z-50 bg-black/30 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-6"
+            className="fixed inset-0 z-50 bg-black/30 backdrop-blur-xs flex items-end justify-center"
             role="dialog"
             aria-modal="true"
             initial={{ opacity: 0 }}

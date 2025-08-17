@@ -20,7 +20,7 @@ export const CartItem = ({ product }: CartProps) => {
   const [amount, setAmount] = useState<number>(20);
   const [amountModal, setAmountModal] = useState(false);
 
-  const price = getPrice(product ? product.prices : [], amount);
+  const price = getPrice(amount);
   const total = price * amount;
 
   const { addItem, removeItem } = useCartStore();
