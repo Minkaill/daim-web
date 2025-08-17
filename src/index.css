@@ -23,16 +23,15 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  width: 100%;
 
   background: radial-gradient(
       circle at 20% 80%,
-      rgba(255, 180, 100, 0.13) 0%,
+      rgba(255, 180, 100, 0.15) 0%,
       /* мягкий янтарь */ transparent 70%
     ),
     radial-gradient(
       circle at 80% 20%,
-      rgba(201, 120, 255, 0.192) 0%,
+      rgba(200, 120, 255, 0.20) 0%,
       /* лавандовый фиолет */ transparent 70%
     );
 
