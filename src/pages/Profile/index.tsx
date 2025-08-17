@@ -1,16 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-
-const user = {
-  id: 5605356109,
-  first_name: "Minkail",
-  last_name: "",
-  username: "mklhdv",
-  language_code: "ru",
-  is_premium: true,
-  photo_url:
-    "https://t.me/i/userpic/320/twVtB1dsdPKDLWHaWTNOobb8WGeo-fI6nvIEG0rduwylNM6anhGBe0V7IPe382k7.svg",
-};
+import { useTelegram } from "../../context/telegram";
+import { Loader } from "../../components/Loader";
 
 const containerVariants = {
   hidden: {},
@@ -28,6 +19,10 @@ const blockVariants = {
 };
 
 export const Profile: React.FC = () => {
+  const { user: usr } = useTelegram();
+
+  if (!usr) return <Loader />;
+
   return (
     <motion.div
       className="w-full flex flex-col gap-3"
@@ -36,17 +31,26 @@ export const Profile: React.FC = () => {
       animate="visible"
     >
       <motion.div
-        className="bg-gray-900 rounded-xl flex flex-col items-center p-4"
+        className="bg-gray-900 rounded-xl relative flex flex-col items-center p-4"
         variants={blockVariants}
       >
+        <div className="absolute top-3 right-3 max-w-28 flex flex-wrap">
+          <span className="text-gray-500/50">
+            @
+            {usr && usr.username && usr.username.length > 50
+              ? usr.username.slice(0, 50) + "..."
+              : usr?.username}
+          </span>
+        </div>
+
         <img
-          src={user.photo_url}
-          alt={user.first_name}
-          className="w-28 h-28 rounded-full mb-3"
+          src={usr.photo_url}
+          alt={usr.first_name}
+          className="w-28 h-28 rounded-full mb-3 z-10"
         />
         <div className="font-bold">
           <h4 className="text-lg text-white">
-            {user.first_name} {user.last_name}
+            {usr.first_name || "User"} {usr.last_name}
           </h4>
         </div>
 

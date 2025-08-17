@@ -28,7 +28,7 @@ export const Card: React.FC<CardProps> = ({ product, onSelectProduct }) => {
 
         <div className="flex items-center gap-4">
           <span className=" bg-green-600 shimmer py-1 px-1.5 text-xs rounded-xl text-white">
-            {product.price}₽
+            От 20шт
           </span>
           <span className=" bg-yellow-600 py-1 px-1.5 text-xs rounded-xl text-white">
             {product.volume}

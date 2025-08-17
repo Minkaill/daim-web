@@ -6,6 +6,7 @@ import {
   clearCart,
 } from "../../db/cartDB";
 import type { CartItem } from "../../models/cart";
+import { getPrice } from "../../hooks/product";
 
 interface CartState {
   items: CartItem[];
@@ -18,22 +19,6 @@ interface CartStore extends CartState {
   clearAll: () => Promise<void>;
   getTotal: () => number;
 }
-
-const TIERS = [0, 20, 100, 500, 1000, 2000] as const;
-
-const nextTier = (qty: number) => {
-  for (let i = 0; i < TIERS.length; i++) {
-    if (qty < TIERS[i]) return TIERS[i];
-  }
-  return TIERS[TIERS.length - 1];
-};
-
-const prevTier = (qty: number) => {
-  for (let i = TIERS.length - 1; i >= 0; i--) {
-    if (qty > TIERS[i]) return TIERS[i];
-  }
-  return TIERS[0];
-};
 
 const initialState: CartState = {
   items: [],
@@ -48,27 +33,32 @@ export const useCartStore = create<CartStore>((set, get) => {
   return {
     ...initialState,
 
-    addItem: async (item) => {
+    addItem: async (item: CartItem) => {
       const { items } = get();
-      const exists = items.find((x) => x.id === item.id);
 
-      if (exists) {
-        const newQty = nextTier(exists.quantity);
-        if (newQty === exists.quantity) return;
+      const found = items.find((x) => x.id === item.id);
 
-        const updated = { ...exists, quantity: newQty };
-        await upsertCartItem(updated);
+      const qty = Math.max(0, Number(item.quantity) || 1);
 
-        set({
-          items: items.map((x) => (x.id === item.id ? updated : x)),
-        });
+      if (qty === 0) {
+        if (found) {
+          await deleteCartItem(item.id);
+          set({ items: items.filter((x) => x.id !== item.id) });
+        }
         return;
       }
 
-      const startQty = 20;
-      const toSave = { ...item, quantity: startQty };
+      const toSave: CartItem = found
+        ? { ...found, quantity: qty }
+        : { ...item, quantity: qty };
+
       await upsertCartItem(toSave);
-      set({ items: [...items, toSave] });
+
+      set((state) => ({
+        items: found
+          ? state.items.map((x) => (x.id === item.id ? toSave : x))
+          : [...state.items, toSave],
+      }));
     },
 
     removeItem: async (id) => {
@@ -76,19 +66,8 @@ export const useCartStore = create<CartStore>((set, get) => {
       const found = items.find((x) => x.id === id);
       if (!found) return;
 
-      const newQty = prevTier(found.quantity);
-
-      if (newQty === 0) {
-        await deleteCartItem(id);
-        set({ items: items.filter((x) => x.id !== id) });
-        return;
-      }
-
-      const updated = { ...found, quantity: newQty };
-      await upsertCartItem(updated);
-      set({
-        items: items.map((x) => (x.id === id ? updated : x)),
-      });
+      await deleteCartItem(id);
+      set({ items: items.filter((x) => x.id !== id) });
     },
 
     clearAll: async () => {
@@ -98,7 +77,8 @@ export const useCartStore = create<CartStore>((set, get) => {
 
     getTotal: () => {
       return get().items.reduce((sum, x) => {
-        return sum + x.price * x.quantity;
+        const unitPrice = getPrice(x.prices, x.quantity);
+        return sum + unitPrice * x.quantity;
       }, 0);
     },
   };

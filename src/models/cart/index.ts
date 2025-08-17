@@ -1,7 +1,9 @@
+import type { Prices } from "../product";
+
 export interface CartItem {
   id: number;
   title: string;
-  price: number;
   quantity: number;
   image: string;
+  prices: Prices[];
 }

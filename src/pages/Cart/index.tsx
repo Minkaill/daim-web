@@ -5,6 +5,7 @@ import { useCartStore } from "../../stores/cart";
 import { motion } from "motion/react";
 import { CartItem } from "../../components/CartItem";
 import { AnimatedNumber } from "../../components/AnimatedNumber";
+import { CartEmpty } from "../../components/CartEmpty";
 
 const containerVariants = {
   hidden: {},
@@ -86,21 +87,7 @@ export const Cart = () => {
             Загрузка...
           </motion.p>
         ) : items.length === 0 ? (
-          <motion.div
-            variants={blockVariants}
-            className="bg-gray-900 w-full rounded-xl flex flex-col items-center justify-center p-3"
-          >
-            <img src="/empty-cart.png" className="w-50 h-50" alt="" />
-
-            <h4 className="font-bold text-lg">Упс! Ваша корзина пуста!</h4>
-
-            <button
-              className="bg-gray-800 w-full rounded-xl py-3 mt-5 cursor-pointer"
-              onClick={() => navigate("/products")}
-            >
-              Вернуться
-            </button>
-          </motion.div>
+          <CartEmpty />
         ) : (
           <motion.ul
             className="space-y-3"
@@ -123,7 +110,7 @@ export const Cart = () => {
         >
           <motion.button
             disabled={items.length === 0}
-            className="w-full bg-[#50A7EA] disabled:opacity-60 disabled:cursor-no-drop disabled:pointer-events-none flex items-center justify-center gap-1 h-14 rounded-xl text-lg px-3"
+            className="w-full shimmer bg-blue-500 disabled:opacity-60 disabled:cursor-no-drop disabled:pointer-events-none flex items-center justify-center gap-1 h-14 rounded-xl text-lg px-3"
           >
             К оплате{" "}
             <AnimatedNumber value={totalPrice} color="text-white font-normal" />

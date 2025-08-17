@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card } from "../../components/Card";
 import { motion } from "motion/react";
-import { ProductModal } from "../../components/CardModal";
+import { ProductModal } from "../../components/ProductModal";
 import type { IProduct } from "../../models/product";
 
 const containerVariants = {
@@ -37,19 +37,29 @@ const products = [
     title: "Смородина и слива",
     description:
       "Cостав: кофе средней обжарки, сок смородины и сливы, фруктоза",
-    price: 350,
-    discountPrice: 250,
     volume: "250мл",
     image: "/daim-2.jpg",
+    prices: [
+      { min: 20, max: 99, value: 250 },
+      { min: 100, max: 499, value: 240 },
+      { min: 500, max: 999, value: 220 },
+      { min: 1000, max: 1999, value: 200 },
+      { min: 2000, max: null, value: 180 },
+    ],
   },
   {
     id: 2,
     title: "Граната",
     description: "Состав: кофе средней обжарки, сок гранаты, фруктоза",
-    price: 350,
-    discountPrice: 250,
     volume: "250мл",
     image: "/daim.jpg",
+    prices: [
+      { min: 1, max: 99, value: 250 },
+      { min: 100, max: 499, value: 240 },
+      { min: 500, max: 999, value: 220 },
+      { min: 1000, max: 1999, value: 200 },
+      { min: 2000, max: null, value: 180 },
+    ],
   },
 ];
 
@@ -83,7 +93,11 @@ export const Products = () => {
 
         {products.map((product) => (
           <motion.div key={product.id} variants={itemVariants}>
-            <Card key={product.id} onSelectProduct={onSelectProduct} product={product} />
+            <Card
+              key={product.id}
+              onSelectProduct={onSelectProduct}
+              product={product}
+            />
           </motion.div>
         ))}
       </motion.div>
