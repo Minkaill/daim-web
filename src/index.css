@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  background-color: #0a0a0a;
+  background-color: #000000;
   font-family: "Inter", sans-serif;
   color: white;
   font-size: 14px;
@@ -23,13 +23,38 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: -1;
+  width: 100%;
 
   background: radial-gradient(
-    circle at 5% 50%,
-    rgba(255, 235, 0, 0.15) 0%,
-    rgba(255, 235, 0, 0.05) 40%,
-    transparent 80%
-  );
+      circle at 20% 80%,
+      rgba(255, 180, 100, 0.13) 0%,
+      /* мягкий янтарь */ transparent 70%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(201, 120, 255, 0.192) 0%,
+      /* лавандовый фиолет */ transparent 70%
+    );
+
+  background-repeat: no-repeat;
+  background-size: 100% 100%, 100% 100%;
+
+  animation: softGlow 15s ease-in-out infinite alternate;
+}
+
+@keyframes softGlow {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
 }
 
 @keyframes shine {
