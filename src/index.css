@@ -26,12 +26,12 @@ body::after {
 
   background: radial-gradient(
       circle at 20% 80%,
-      rgba(255, 180, 100, 0.15) 0%,
+      rgba(255, 180, 100, 0.25) 0%,
       /* мягкий янтарь */ transparent 70%
     ),
     radial-gradient(
       circle at 80% 20%,
-      rgba(200, 120, 255, 0.20) 0%,
+      rgba(200, 120, 255, 0.30) 0%,
       /* лавандовый фиолет */ transparent 70%
     );
 
@@ -97,8 +97,7 @@ body::after {
     rgba(255, 255, 255, 0) 100%
   );
   filter: blur(6px);
-  pointer-events: none;
-  mix-blend-mode: screen;
+  pointer-events: none;  mix-blend-mode: screen;
   animation: shine 1.5s ease-in-out infinite;
   z-index: 1;
   will-change: transform;
