@@ -30,6 +30,16 @@ export const InputAmountModal = ({
     onClose();
   };
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  const handleModalClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <AnimatePresence>
       {open && (
@@ -38,12 +48,14 @@ export const InputAmountModal = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          onClick={handleBackdropClick}
         >
           <motion.div
             className="bg-gray-900 relative w-full mx-5 rounded-xl p-6"
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
+            onClick={handleModalClick}
           >
             <button
               className="absolute p-1 cursor-pointer bg-gray-500/50 rounded-full top-3 right-3 z-10"
