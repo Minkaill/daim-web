@@ -231,12 +231,13 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
               <AnimatePresence>
                 {error && (
                   <motion.div
-                    className="rounded-xl bg-red-500/10 border border-red-500/30 p-3 text-red-300 text-sm"
+                    className="rounded-xl text-xs bg-red-500/10 border border-red-500/30 p-3 text-red-300"
                     initial={{ opacity: 0, y: -6 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                   >
-                    {String(error)}
+                    Ошибка при отправке заказа. Попробуйте снова или обратитесь
+                    в поддержку
                   </motion.div>
                 )}
               </AnimatePresence>
