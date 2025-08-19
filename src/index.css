@@ -57,40 +57,10 @@ body::after {
   background-size: 260px auto, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
   background-position: center;
 
-  /* pattern слегка уходит в multiply, чтобы стал кофейным */
+  /* паттерн уходит в multiply, чтобы не выбивался */
   background-blend-mode: multiply, normal, multiply, multiply, multiply;
 
-  animation: softGlow 5s ease-in-out infinite alternate,
-    tintShift 8s ease-in-out infinite alternate;
-
   filter: saturate(0.95) brightness(0.95);
-  will-change: transform, opacity, filter;
-}
-
-@keyframes softGlow {
-  0% {
-    opacity: 0.85;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-}
-
-@keyframes tintShift {
-  0% {
-    filter: saturate(0.95) brightness(0.95);
-  }
-  100% {
-    filter: saturate(1.05) brightness(1.02);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body::after {
-    animation: none;
-  }
 }
 
 @keyframes shine {
@@ -158,57 +128,5 @@ input[type="number"] {
   .shimmer::after {
     animation: none;
     opacity: 0;
-  }
-}
-
-@-webkit-keyframes noise {
-  to {
-    transform: translate3d(-7rem, 0, 0);
-  }
-}
-
-@keyframes noise {
-  0% {
-    transform: translate3d(0, 9rem, 0);
-  }
-
-  10% {
-    transform: translate3d(-1rem, -4rem, 0);
-  }
-
-  20% {
-    transform: translate3d(-8rem, 2rem, 0);
-  }
-
-  30% {
-    transform: translate3d(9rem, -9rem, 0);
-  }
-
-  40% {
-    transform: translate3d(-2rem, 7rem, 0);
-  }
-
-  50% {
-    transform: translate3d(-9rem, -4rem, 0);
-  }
-
-  60% {
-    transform: translate3d(2rem, 6rem, 0);
-  }
-
-  70% {
-    transform: translate3d(7rem, -8rem, 0);
-  }
-
-  80% {
-    transform: translate3d(-9rem, 1rem, 0);
-  }
-
-  90% {
-    transform: translate3d(6rem, -5rem, 0);
-  }
-
-  to {
-    transform: translate3d(-7rem, 0, 0);
   }
 }
