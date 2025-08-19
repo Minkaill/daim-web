@@ -17,50 +17,54 @@ body {
   font-size: 14px;
 }
 
-:root {
-  --coffee-dark: 119, 82, 71; /* #775247 */
-  --coffee-gray: 96, 93, 93; /* #605D5D */
-  --coffee-warm: 135, 128, 124; /* #87807C */
-  --coffee-mid: 140, 134, 132; /* #8C8684 */
+:root{
+  /* палитра под референс */
+  --brown-900: 22, 12, 8;    /* почти чёрный кофе */
+  --brown-800: 36, 21, 15;   /* глубокий жареный */
+  --brown-700: 58, 34, 24;   /* основа */
+  --brown-600: 88, 53, 38;   /* тёплый центр */
+  --caramel:   196, 140, 96; /* мягкий карамельный для свечения */
 }
 
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
+/* один статичный слой */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
 
-  background-image: url("/pattern.svg"),
-    radial-gradient(
-      circle at 20% 80%,
-      rgba(var(--coffee-dark), 0.35) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      circle at 80% 20%,
-      rgba(var(--coffee-warm), 0.28) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(var(--coffee-gray), 0.25) 0%,
-      transparent 75%
-    ),
-    radial-gradient(
-      circle at 70% 60%,
-      rgba(var(--coffee-mid), 0.2) 0%,
-      transparent 75%
-    );
+  /* порядок слоёв: 1) pattern 2) виньетка-кромка 3) боковые виньетки 4) тёплое свечение 5) вертикальный градиент-основа */
+  background-image:
+    url("/pattern.svg"),
+    radial-gradient(ellipse at center,
+      rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%),              /* нижняя виньетка */
+    radial-gradient(circle at 5% 50%,  rgba(0,0,0,0.28) 0%, transparent 60%), /* слева */
+    radial-gradient(circle at 95% 50%, rgba(0,0,0,0.28) 0%, transparent 60%), /* справа */
+    radial-gradient(circle at 50% 40%,
+      rgba(var(--caramel),0.18) 0%, rgba(var(--caramel),0.00) 55%),          /* тёплое ядро */
+    linear-gradient(to bottom,
+      rgba(var(--brown-900),1) 0%,
+      rgba(var(--brown-800),1) 18%,
+      rgba(var(--brown-700),1) 45%,
+      rgba(var(--brown-600),1) 65%,
+      rgba(var(--brown-800),1) 100%);
 
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-size: 260px auto, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
-  background-position: center;
+  background-size:
+    240px auto,       /* pattern плиткой, можно 220/280 подогнать */
+    100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-repeat:
+    repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position:
+    center, center, center, center, center, center;
 
-  /* паттерн уходит в multiply, чтобы не выбивался */
-  background-blend-mode: multiply, normal, multiply, multiply, multiply;
+  /* паттерн едва заметен и кофейный */
+  background-blend-mode:
+    overlay,          /* лёгкий рисунок */
+    normal, multiply, multiply, soft-light, normal;
 
-  filter: saturate(0.95) brightness(0.95);
+  /* слегка приглушим, чтобы контент читался */
+  filter: saturate(.98) brightness(.98);
 }
 
 @keyframes shine {

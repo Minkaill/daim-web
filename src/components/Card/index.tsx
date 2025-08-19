@@ -24,13 +24,14 @@ export const Card: React.FC<CardProps> = ({ product, onSelectProduct }) => {
 
       <div className="h-full flex flex-col justify-between">
         <h4 className="text-base text-white font-bold">{product.title}</h4>
-        <p className="text-xs text-gray-300">{product.description}</p>
+        <p className="text-xs text-gray-300 w-[95%]">{product.description}</p>
 
-        <div className="flex items-center gap-4">
-          <span className=" bg-green-600 shimmer py-1 px-1.5 text-xs rounded-xl text-white">
-            От 20шт
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-semibold text-[#0D0605] bg-[#D7AF8B] shadow-[0_2px_8px_rgba(215,175,139,.35)]">
+            От 180₽
           </span>
-          <span className=" bg-yellow-600 py-1 px-1.5 text-xs rounded-xl text-white">
+
+          <span className="inline-flex items-center rounded-lg px-2 py-1 text-xs text-white/90 bg-[#5E483C]">
             {product.volume}
           </span>
         </div>

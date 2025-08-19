@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { IProduct } from "../../models/product";
 import { motion, AnimatePresence } from "motion/react";
-import { X } from "lucide-react";
+import { X, ShoppingCart, Check } from "lucide-react";
 import { useTelegram } from "../../context/telegram";
 import { PenLine } from "lucide-react";
 import { InputAmountModal } from "../InputAmountModal";
 import { useCartStore } from "../../lib/stores/cart";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   open: boolean;
@@ -21,8 +22,10 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
   const [imgReady, setImgReady] = useState(false);
   const [amountModal, setAmountModal] = useState(false);
 
+  const navigate = useNavigate();
+
   const { isMobile } = useTelegram();
-  const { addItem, removeItem, items } = useCartStore();
+  const { addItem, items } = useCartStore();
 
   const backdropRef = useRef<HTMLDivElement | null>(null);
 
@@ -63,7 +66,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
   const onToggleItemInCart = () => {
     if (!product) return;
     if (isInCart) {
-      removeItem(product.id);
+      navigate("/cart");
     } else {
       addItem({ ...product, quantity: amount });
     }
@@ -140,11 +143,12 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                   {currentProduct.description}
                 </p>
 
-                <div className="flex items-center gap-4 mt-3">
-                  <span className="bg-green-600 py-1 px-1.5 text-xs rounded-xl text-white">
-                    От 20шт
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-semibold text-[#0D0605] bg-[#D7AF8B] shadow-[0_2px_8px_rgba(215,175,139,.35)]">
+                    От 180₽
                   </span>
-                  <span className="bg-yellow-600 py-1 px-1.5 text-xs rounded-xl text-white">
+
+                  <span className="inline-flex items-center rounded-lg px-2 py-1 text-xs text-white/90 bg-[#5E483C]">
                     {currentProduct.volume}
                   </span>
                 </div>
@@ -201,21 +205,21 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                 <motion.button
                   onClick={onToggleItemInCart}
                   disabled={!currentProduct}
-                  animate={{
-                    backgroundColor: isInCart ? "#dc2626" : "#4B2E2A",
-                  }}
                   type="button"
                   role="button"
-                  className="w-full shimmer cursor-pointer py-3 rounded-xl text-white font-bold"
+                  className="w-full bg-[#4B2E2A] shimmer cursor-pointer py-3 rounded-xl text-white font-bold"
                 >
                   <motion.span
-                    key={isInCart ? "remove" : "add"}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {isInCart ? "Удалить" : "В корзину"}
+                    {isInCart ? (
+                      <Check color="#6FBF73" size={20} />
+                    ) : (
+                      <ShoppingCart size={20} />
+                    )}
                   </motion.span>
                 </motion.button>
               </div>
