@@ -29,7 +29,9 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <motion.nav
       ref={ref}
-      className={`fixed ${isMobile ? "bottom-10" : "bottom-4"} left-0 right-0 w-[90%] mx-auto bg-[#352c2cc7] overflow-hidden rounded-4xl`}
+      className={`fixed ${
+        isMobile ? "bottom-10" : "bottom-4"
+      } left-0 right-0 w-[90%] mx-auto bg-[#352c2cc7] overflow-hidden rounded-4xl`}
       aria-label="Основная навигация"
       initial="hidden"
       animate="visible"
@@ -52,30 +54,33 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
                 <Icon size={22} />
                 <p className="text-xs">{label}</p>
 
-                {to === "/cart" && <AnimatePresence>
-                  <motion.div
-                    key={items.length}
-                    className="
+                {to === "/cart" && (
+                  <AnimatePresence>
+                    <motion.div
+                      key={items.length}
+                      className="
                     absolute bottom-7 left-7
                     w-5 h-5
                     flex items-center justify-center
                     font-bold
-                    text-xs text-black
-                    bg-yellow-400 rounded-full"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 500,
-                      damping: 25,
-                    }}
-                    aria-label={`В корзине ${items.length} ${items.length === 1 ? "товар" : "товара"
+                    text-xs text-white
+                    bg-[#C69C72] rounded-full"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 25,
+                      }}
+                      aria-label={`В корзине ${items.length} ${
+                        items.length === 1 ? "товар" : "товара"
                       }`}
-                  >
-                    {items.length}
-                  </motion.div>
-                </AnimatePresence>}
+                    >
+                      {items.length}
+                    </motion.div>
+                  </AnimatePresence>
+                )}
               </div>
             </NavLink>
           </li>

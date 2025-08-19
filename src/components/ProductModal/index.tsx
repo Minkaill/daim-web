@@ -170,7 +170,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                           animate={{
                             backgroundColor:
                               amount === opt
-                                ? "#3b82f6"
+                                ? "#4B2E2A"
                                 : "rgba(107, 114, 128, 0.5)",
                           }}
                         >
@@ -185,7 +185,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                           backgroundColor: !AMOUNT_OPTIONS.includes(
                             amount as (typeof AMOUNT_OPTIONS)[number]
                           )
-                            ? "#3b82f6"
+                            ? "#4B2E2A"
                             : "rgba(107, 114, 128, 0.5)",
                         }}
                         className="w-full flex items-center justify-center py-2 rounded-xl cursor-pointer"
@@ -202,7 +202,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                   onClick={onToggleItemInCart}
                   disabled={!currentProduct}
                   animate={{
-                    backgroundColor: isInCart ? "#dc2626" : "#3b82f6",
+                    backgroundColor: isInCart ? "#dc2626" : "#4B2E2A",
                   }}
                   type="button"
                   role="button"
