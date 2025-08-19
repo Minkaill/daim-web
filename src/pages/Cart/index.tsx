@@ -130,7 +130,11 @@ export const Cart = () => {
         )}
       </motion.div>
 
-      <OrderModal open={orderModal} onClose={() => setOrderModal(false)} />
+      <OrderModal
+        totalPrice={totalPrice}
+        open={orderModal}
+        onClose={() => setOrderModal(false)}
+      />
     </>
   );
 };

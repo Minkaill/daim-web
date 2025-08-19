@@ -6,6 +6,7 @@ export const createOrder = async (order: OrderBody): Promise<OrderResponse> => {
     method: "POST",
     body: JSON.stringify(order),
     parseJson: true,
+    mode: "no-cors",
   });
 
   return response;

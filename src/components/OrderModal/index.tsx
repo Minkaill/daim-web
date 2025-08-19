@@ -3,13 +3,18 @@ import { X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { useOrderStore } from "../../lib/stores/order";
 import { formatPhone } from "../../hooks/product";
+import { useTelegram } from "../../context/telegram";
+import { useCartStore } from "../../lib/stores/cart";
+import type { OrderBody } from "../../lib/services/order/index.types";
+import toast from "react-hot-toast";
 
 interface Props {
   open: boolean;
+  totalPrice: number;
   onClose: () => void;
 }
 
-export const OrderModal = ({ open, onClose }: Props) => {
+export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [touched, setTouched] = useState<{ address: boolean; phone: boolean }>({
@@ -18,6 +23,8 @@ export const OrderModal = ({ open, onClose }: Props) => {
   });
 
   const { createOrder, isPending, isSuccess, error } = useOrderStore();
+  const { items } = useCartStore();
+  const { user } = useTelegram();
 
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
@@ -45,19 +52,52 @@ export const OrderModal = ({ open, onClose }: Props) => {
   const addressIsValid = address.trim().length > 5;
   const formIsValid = phoneIsValid && addressIsValid;
 
-  const onSubmit = async () => {
-    setTouched({ address: true, phone: true });
-    if (!formIsValid || isPending) return;
+  const normalizePhone = (raw: string) => raw.replace(/\D/g, "");
 
-    const data = {
+  const cartItems = items.map((item) => ({
+    product_id: item.id,
+    quantity: item.quantity,
+  }));
+
+  const onSubmit = async () => {
+    if (isPending) return;
+    setTouched({ address: true, phone: true });
+
+    const phoneDigits = normalizePhone(phone);
+    const addressOk = address.trim().length >= 6;
+    const phoneOk = phoneDigits.length >= 10;
+    const itemsOk = cartItems.length > 0;
+    const totalOk = totalPrice > 0;
+    const userOk = !!user?.id;
+
+    if (!addressOk || !phoneOk || !itemsOk || !totalOk) {
+      toast.error("Проверьте данные формы");
+      return;
+    }
+
+    if (!userOk) {
+      toast.error("Не удалось определить пользователя");
+      return;
+    }
+
+    const data: OrderBody = {
       address: address.trim(),
-      phone: phone.trim(),
-      telegram_id: 0,
-      total_price_cents: 0,
-      items: [],
+      phone: phoneDigits,
+      telegram_id: user!.id,
+      total_price_cents: totalPrice,
+      items: cartItems,
     };
 
-    await createOrder(data);
+    try {
+      await createOrder(data);
+      toast.success("Заказ успешно оформлен 🎉");
+      setAddress("");
+      setPhone("");
+      onClose();
+    } catch (e: any) {
+      toast.error("Ошибка при создании заказа");
+      console.error(e);
+    }
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -148,7 +188,7 @@ export const OrderModal = ({ open, onClose }: Props) => {
                 <AnimatePresence>
                   {touched.address && !addressIsValid && (
                     <motion.p
-                      className="mt-1 text-sm text-red-400"
+                      className="mt-1 text-xs text-red-400"
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
@@ -181,7 +221,7 @@ export const OrderModal = ({ open, onClose }: Props) => {
                 <AnimatePresence>
                   {touched.phone && !phoneIsValid && (
                     <motion.p
-                      className="mt-1 text-sm text-red-400"
+                      className="mt-1 text-xs text-red-400"
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
