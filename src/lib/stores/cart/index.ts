@@ -1,12 +1,8 @@
 import { create } from "zustand";
-import {
-  getAllCartItems,
-  upsertCartItem,
-  deleteCartItem,
-  clearCart,
-} from "../../db/cartDB";
-import type { CartItem } from "../../models/cart";
-import { getPrice } from "../../hooks/product";
+
+import type { CartItem } from "../../../models/cart";
+import { clearCart, deleteCartItem, getAllCartItems, upsertCartItem } from "../../../db/cartDB";
+import { getPrice } from "../../../hooks/product";
 
 interface CartState {
   items: CartItem[];

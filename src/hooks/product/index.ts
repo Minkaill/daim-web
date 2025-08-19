@@ -19,3 +19,21 @@ export const getPrice = (amount: number): number => {
   }
   return 0;
 };
+
+export const formatPhone = (value: string) => {
+  let digits = value.replace(/\D/g, "");
+
+  if (!digits.startsWith("7")) {
+    digits = "7" + digits;
+  }
+
+  const num = digits.slice(1);
+
+  let result = "+7 ";
+  if (num.length > 0) result += "(" + num.slice(0, 3);
+  if (num.length >= 4) result += ") " + num.slice(3, 6);
+  if (num.length >= 7) result += "-" + num.slice(6, 8);
+  if (num.length >= 9) result += "-" + num.slice(8, 10);
+
+  return result;
+};

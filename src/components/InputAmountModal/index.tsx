@@ -64,7 +64,7 @@ export const InputAmountModal = ({
               <X size={24} className="text-white" />
             </button>
 
-            <h2 className="text-base font-bold mb-2">Введите количество</h2>
+            <h2 className="text-base font-bold mb-2 mt-4">Введите количество</h2>
             <input
               type="number"
               inputMode="numeric"

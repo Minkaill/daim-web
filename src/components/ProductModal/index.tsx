@@ -2,10 +2,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { IProduct } from "../../models/product";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
-import { useCartStore } from "../../stores/cart";
 import { useTelegram } from "../../context/telegram";
 import { PenLine } from "lucide-react";
 import { InputAmountModal } from "../InputAmountModal";
+import { useCartStore } from "../../lib/stores/cart";
 
 interface Props {
   open: boolean;

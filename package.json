@@ -13,10 +13,12 @@
     "@tailwindcss/vite": "^4.1.11",
     "@twa-dev/sdk": "^8.0.2",
     "idb": "^8.0.3",
+    "immer": "^10.1.1",
     "lucide-react": "^0.526.0",
     "motion": "^12.23.9",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.7.1",
     "tailwindcss": "^4.1.11",
     "zustand": "^5.0.6"

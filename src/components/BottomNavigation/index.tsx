@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { forwardRef } from "react";
 import { useTelegram } from "../../context/telegram";
-import { useCartStore } from "../../stores/cart";
+import { useCartStore } from "../../lib/stores/cart";
 
 interface NavItem {
   to: string;

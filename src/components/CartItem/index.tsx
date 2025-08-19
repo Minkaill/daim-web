@@ -1,11 +1,11 @@
 import { type CartItem as ICart } from "../../models/cart";
-import { useCartStore } from "../../stores/cart";
 import { motion } from "motion/react";
 import { AnimatedNumber } from "../AnimatedNumber";
 import { PenLine, Trash } from "lucide-react";
 import { InputAmountModal } from "../InputAmountModal";
 import { useEffect, useState } from "react";
 import { getPrice } from "../../hooks/product";
+import { useCartStore } from "../../lib/stores/cart";
 
 interface CartProps {
   product: ICart;
