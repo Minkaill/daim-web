@@ -140,7 +140,7 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
         >
           <motion.div
             ref={dialogRef}
-            className="relative w-full max-w-md bg-gray-900 rounded-2xl p-6 shadow-xl outline-none"
+            className="relative w-full max-w-md bg-[#352c2cc7] rounded-2xl p-6 shadow-xl outline-none"
             {...variants.panel}
           >
             <button
@@ -173,7 +173,7 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
                 <input
                   id="order-address"
                   type="text"
-                  className="w-full p-3 min-h-12 border border-transparent focus:border-blue-500 bg-gray-800 rounded-xl text-white focus:outline-none placeholder:text-gray-400"
+                  className="w-full p-3 min-h-12 border border-transparent focus:border-blue-500 bg-[#241f1fc7] rounded-xl text-white focus:outline-none placeholder:text-gray-400"
                   placeholder="Город, улица, дом, квартира"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
@@ -206,7 +206,7 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
                   id="order-phone"
                   type="tel"
                   inputMode="tel"
-                  className="w-full p-3 min-h-12 border border-transparent focus:border-blue-500 bg-gray-800 rounded-xl text-white focus:outline-none placeholder:text-gray-400"
+                  className="w-full p-3 min-h-12 border border-transparent focus:border-blue-500 bg-[#241f1fc7] rounded-xl text-white focus:outline-none placeholder:text-gray-400"
                   placeholder="+7 (999) 123-45-67"
                   value={phone}
                   onChange={(e) => onPhoneChange(e.target.value)}
@@ -249,7 +249,7 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
                 type="button"
                 role="button"
                 disabled={!formIsValid || isPending}
-                className="w-full bg-blue-500 disabled:bg-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer py-3 rounded-xl text-white font-bold transition"
+                className="w-full bg-[#4B2E2A] disabled:bg-[#C69C72]/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer py-3 rounded-xl text-white font-bold transition"
               >
                 <AnimatePresence mode="wait" initial={false}>
                   {isPending ? (

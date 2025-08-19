@@ -97,7 +97,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
             <motion.div
               className={`px-3 pt-5 ${
                 isMobile ? "pb-12" : "pb-3"
-              } bg-gray-900 rounded-t-3xl w-full`}
+              } bg-[#352c2cc7] rounded-t-3xl w-full`}
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: imgReady ? 0 : 100, opacity: imgReady ? 1 : 0 }}
               exit={{ y: 500, opacity: 0 }}
@@ -132,7 +132,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                 />
               </div>
 
-              <div className="mt-3 rounded-xl p-3 bg-gray-800">
+              <div className="mt-3 rounded-xl p-3 bg-[#241f1fc7]">
                 <h4 className="text-white text-base font-bold">
                   {currentProduct.title}
                 </h4>

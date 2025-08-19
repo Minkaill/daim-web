@@ -66,7 +66,7 @@ export const Products = () => {
       >
         <motion.div
           variants={headerVariants}
-          className="bg-gray-900 w-full rounded-xl p-3 mb-4 flex items-center justify-between active:bg-gray-800 transition-all ease-in-out"
+          className="bg-[#352c2cc7] w-full rounded-xl p-3 mb-4 flex items-center justify-between active:bg-[#241f1fc7] transition-all ease-in-out"
         >
           <p>
             Daim Coffee{" "}

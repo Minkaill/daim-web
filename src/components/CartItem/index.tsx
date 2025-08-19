@@ -35,7 +35,7 @@ export const CartItem = ({ product }: CartProps) => {
     <>
       <motion.li
         key={product.id}
-        className="bg-gray-800 p-3 rounded-xl flex items-center cursor-pointer"
+        className="bg-[#241f1fc7] p-3 rounded-xl flex items-center cursor-pointer"
         variants={itemVariants}
       >
         <div className="w-12 h-12 rounded mr-3 overflow-hidden">

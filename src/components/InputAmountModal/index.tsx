@@ -51,7 +51,7 @@ export const InputAmountModal = ({
           onClick={handleBackdropClick}
         >
           <motion.div
-            className="bg-gray-900 relative w-full mx-5 rounded-xl p-6"
+            className="bg-[#352c2cc7] relative w-full mx-5 rounded-xl p-6"
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
@@ -69,7 +69,7 @@ export const InputAmountModal = ({
               type="number"
               inputMode="numeric"
               pattern="[0-9]*"
-              className="w-full p-2 min-h-12 border-none bg-gray-800 rounded-xl text-white focus:outline-none"
+              className="w-full p-2 min-h-12 border-none bg-[#241f1fc7] rounded-xl text-white focus:outline-none"
               min={1}
               max={2000}
               step={1}
@@ -83,7 +83,7 @@ export const InputAmountModal = ({
               <motion.button
                 type="button"
                 role="button"
-                className="w-full bg-blue-500 cursor-pointer py-3 rounded-xl text-white font-bold"
+                className="w-full bg-[#4B2E2A] cursor-pointer py-3 rounded-xl text-white font-bold"
                 onClick={handleSubmit}
               >
                 <motion.span

@@ -67,7 +67,7 @@ export const Cart = () => {
         animate="visible"
       >
         <motion.div
-          className="bg-gray-900 rounded-xl p-3 flex flex-col"
+          className="bg-[#352c2cc7] rounded-xl p-3 flex flex-col"
           variants={blockVariants}
         >
           {items.length > 0 && (
@@ -111,14 +111,14 @@ export const Cart = () => {
 
         {items.length > 0 && (
           <motion.div
-            className={`w-full bg-gray-800 ${
+            className={`w-full bg-[#241f1fc7] ${
               isMobile ? "h-28" : "h-20"
             } p-3 fixed bottom-0 left-0`}
           >
             <motion.button
               onClick={() => setOrderModal(true)}
               disabled={items.length === 0}
-              className="w-full shimmer bg-blue-500 cursor-pointer disabled:opacity-60 disabled:cursor-no-drop disabled:pointer-events-none flex items-center justify-center gap-1 h-14 rounded-xl text-lg px-3"
+              className="w-full shimmer bg-[#4B2E2A] cursor-pointer disabled:opacity-60 disabled:cursor-no-drop disabled:pointer-events-none flex items-center justify-center gap-1 h-14 rounded-xl text-lg px-3"
             >
               К оплате{" "}
               <AnimatedNumber

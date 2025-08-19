@@ -11,7 +11,7 @@ export const Card: React.FC<CardProps> = ({ product, onSelectProduct }) => {
   return (
     <motion.div
       onClick={() => onSelectProduct(product)}
-      className="cursor-pointer flex items-start w-full h-30 rounded-xl p-3 active:bg-gray-800 bg-gray-900 transition-all duration-300 ease-in-out"
+      className="cursor-pointer flex items-start w-full h-30 rounded-xl p-3 active:bg-[#241f1fc7] bg-[#352c2cc7] transition-all duration-300 ease-in-out"
       transition={{ duration: 0.1 }}
     >
       <div className="w-20 flex-shrink-0 h-full rounded-xl overflow-hidden mr-4">

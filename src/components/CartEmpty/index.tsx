@@ -12,7 +12,7 @@ export const CartEmpty = () => {
   return (
     <motion.div
       variants={blockVariants}
-      className="bg-gray-900 w-full rounded-xl flex flex-col items-center justify-center"
+      className="bg-[#241f1fc7] w-full rounded-xl flex flex-col items-center justify-center"
     >
       <img
         src="/empty-cart.png"
@@ -23,7 +23,7 @@ export const CartEmpty = () => {
       <h4 className="font-bold text-base">Корзина пуста</h4>
 
       <button
-        className="bg-gray-800 w-full active:bg-gray-800/50 rounded-xl py-3 mt-5 cursor-pointer"
+        className="bg-[#4B2E2A]/10 w-full active:bg-gray-800/50 rounded-xl py-3 mt-5 cursor-pointer"
         onClick={() => navigate("/products")}
       >
         Вернуться

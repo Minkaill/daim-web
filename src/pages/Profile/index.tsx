@@ -31,7 +31,7 @@ export const Profile: React.FC = () => {
       animate="visible"
     >
       <motion.div
-        className="bg-gray-900 rounded-xl relative flex flex-col items-center p-4"
+        className="bg-[#352c2cc7] rounded-xl relative flex flex-col items-center p-4"
         variants={blockVariants}
       >
         <div className="absolute top-3 right-3 max-w-28 flex flex-wrap">
@@ -54,7 +54,7 @@ export const Profile: React.FC = () => {
           </h4>
         </div>
 
-        <div className="w-full flex items-center justify-center gap-4 mt-3 bg-gray-800 p-3 rounded-xl">
+        <div className="w-full flex items-center justify-center gap-4 mt-3 bg-[#241f1fc7] p-3 rounded-xl">
           <div className="flex flex-col items-center justify-center">
             <span className="text-sm font-bold text-yellow-600">0</span>
             <p className="text-gray-500 mt-[-5px]">Куплено</p>

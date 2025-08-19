@@ -17,6 +17,13 @@ body {
   font-size: 14px;
 }
 
+:root {
+  --coffee-dark: 119, 82, 71; /* #775247 */
+  --coffee-gray: 96, 93, 93; /* #605D5D */
+  --coffee-warm: 135, 128, 124; /* #87807C */
+  --coffee-mid: 140, 134, 132; /* #8C8684 */
+}
+
 body::after {
   content: "";
   position: fixed;
@@ -24,51 +31,84 @@ body::after {
   pointer-events: none;
   z-index: -1;
 
-  background: radial-gradient(
+  background-image: url("/pattern.svg"),
+    radial-gradient(
       circle at 20% 80%,
-      rgba(255, 180, 100, 0.25) 0%,
-      /* мягкий янтарь */ transparent 70%
+      rgba(var(--coffee-dark), 0.35) 0%,
+      transparent 70%
     ),
     radial-gradient(
       circle at 80% 20%,
-      rgba(200, 120, 255, 0.30) 0%,
-      /* лавандовый фиолет */ transparent 70%
+      rgba(var(--coffee-warm), 0.28) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--coffee-gray), 0.25) 0%,
+      transparent 75%
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(var(--coffee-mid), 0.2) 0%,
+      transparent 75%
     );
 
-  background-repeat: no-repeat;
-  background-size: 100% 100%, 100% 100%;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: 260px auto, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-position: center;
 
-  animation: softGlow 15s ease-in-out infinite alternate;
+  /* pattern слегка уходит в multiply, чтобы стал кофейным */
+  background-blend-mode: multiply, normal, multiply, multiply, multiply;
+
+  animation: softGlow 5s ease-in-out infinite alternate,
+    tintShift 8s ease-in-out infinite alternate;
+
+  filter: saturate(0.95) brightness(0.95);
+  will-change: transform, opacity, filter;
 }
 
 @keyframes softGlow {
   0% {
-    opacity: 0.8;
+    opacity: 0.85;
     transform: scale(1);
   }
-  50% {
+  100% {
     opacity: 1;
     transform: scale(1.02);
   }
+}
+
+@keyframes tintShift {
+  0% {
+    filter: saturate(0.95) brightness(0.95);
+  }
   100% {
-    opacity: 0.85;
-    transform: scale(1);
+    filter: saturate(1.05) brightness(1.02);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
   }
 }
 
 @keyframes shine {
   0% {
-    transform: translateX(-140%);
+    transform: translateX(-200%) skewX(-25deg);
     opacity: 0;
   }
-  15% {
-    opacity: 0.9;
+  30% {
+    opacity: 0.6;
   }
-  85% {
-    opacity: 0.9;
+  50% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.6;
   }
   100% {
-    transform: translateX(140%);
+    transform: translateX(200%) skewX(-25deg);
     opacity: 0;
   }
 }
@@ -78,29 +118,30 @@ body::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  align-items: center;
   overflow: hidden;
 }
 
 .shimmer::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -20%;
   width: 50%;
-  border-radius: 9999px;
-  transform: translateX(-140%);
-  overflow: hidden;
+  transform: translateX(-200%) skewX(-25deg);
+
   background: linear-gradient(
-    120deg,
+    115deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0.12) 35%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.12) 65%,
     rgba(255, 255, 255, 0) 100%
   );
-  filter: blur(6px);
-  pointer-events: none;  mix-blend-mode: screen;
-  animation: shine 1.5s ease-in-out infinite;
+
+  filter: blur(12px);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  animation: shine 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   z-index: 1;
-  will-change: transform;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

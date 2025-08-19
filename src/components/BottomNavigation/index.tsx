@@ -29,7 +29,7 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <motion.nav
       ref={ref}
-      className={`fixed ${isMobile ? "bottom-10" : "bottom-4"} left-0 right-0 w-[90%] mx-auto bg-gray-900 overflow-hidden rounded-4xl`}
+      className={`fixed ${isMobile ? "bottom-10" : "bottom-4"} left-0 right-0 w-[90%] mx-auto bg-[#352c2cc7] overflow-hidden rounded-4xl`}
       aria-label="Основная навигация"
       initial="hidden"
       animate="visible"
