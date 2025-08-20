@@ -244,7 +244,6 @@ export const Orders: React.FC = () => {
       initial="hidden"
       animate="visible"
       className="flex flex-col gap-2 pb-2"
-       id="orders-list" data-occlude-nav="true"
     >
       {isLoading && (
         <motion.div
