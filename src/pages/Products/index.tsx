@@ -23,14 +23,6 @@ const itemVariants = {
   },
 };
 
-const headerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.5 },
-  },
-};
-
 const products = [
   {
     id: 1,
@@ -62,12 +54,9 @@ export const Products = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-2"
       >
-        <motion.div
-          variants={headerVariants}
-          className="bg-[#352c2cc7] cursor-pointer w-full rounded-xl px-3 py-2 mb-1 flex items-center justify-between active:bg-[#241f1fc7] transition-all ease-in-out"
-        >
+        <div className="bg-[#352c2cd7] cursor-pointer w-full rounded-xl px-3 py-2 mb-1 flex items-center justify-between active:bg-[#241f1fc7] transition-all ease-in-out">
           <p className="text-xs">
             Daim Coffee{" "}
             <span className="text-yellow-600">(Правила использования)</span>
@@ -77,7 +66,7 @@ export const Products = () => {
             src="/question.svg"
             alt="question"
           />
-        </motion.div>
+        </div>
 
         {products.map((product) => (
           <motion.div key={product.id} variants={itemVariants}>

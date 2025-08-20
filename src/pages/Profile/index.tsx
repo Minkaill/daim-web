@@ -31,7 +31,7 @@ export const Profile: React.FC = () => {
       animate="visible"
     >
       <motion.div
-        className="bg-[#352c2cc7] rounded-xl relative flex flex-col items-center p-4"
+        className="bg-[#352c2cd7] rounded-xl relative flex flex-col items-center p-4"
         variants={blockVariants}
       >
         <div className="absolute top-3 right-3 max-w-28 flex flex-wrap">

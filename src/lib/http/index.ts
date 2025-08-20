@@ -1,27 +1,25 @@
-const baseURL = "http://45.12.238.18/";
+const BASE_URL = "http://45.12.238.18";
 
-interface ApiFetchOptions extends RequestInit {
-  parseJson?: boolean;
-}
-
-export async function http<T = unknown>(
-  endpoint: string,
-  options: ApiFetchOptions = {}
+export async function http<T>(
+  path: string,
+  init: RequestInit & { parseJson?: boolean } = {}
 ): Promise<T> {
-  const url = `${baseURL}${endpoint}/`;
-  const { parseJson = true, ...fetchOptions } = options;
-
-  const response = await fetch(url, {
+  const res = await fetch(`${BASE_URL}/${path.replace(/^\/+/,'')}`, {
+    method: init.method ?? "GET",
     headers: {
       "Content-Type": "application/json",
-      ...(options.headers || {}),
+      ...(init.headers || {}),
     },
-    ...fetchOptions,
+    redirect: "follow",
+    ...init,
   });
 
-  if (!response.ok) {
-    throw new Error(`Ошибка: ${response.status}`);
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`${res.status} ${res.statusText} ${text}`.trim());
   }
 
-  return parseJson ? response.json() : (response as unknown as T);
+  if (init.parseJson !== false) return (await res.json()) as T;
+  // @ts-expect-error
+  return undefined;
 }

@@ -22,7 +22,7 @@ export const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div
-      className={`px-5 pb-5 ${isMobile ? "pt-26" : "pt-5"} w-full`}
+      className={`px-4 pb-4 ${isMobile ? "pt-26" : "pt-4"} w-full`}
       style={{ paddingBottom: navHeight }}
     >
       {children}

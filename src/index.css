@@ -3,7 +3,17 @@
 *,
 *::before,
 *::after {
+  scrollbar-width: none;
   box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+html,
+body {
+  overflow-x: hidden;
 }
 
 html {

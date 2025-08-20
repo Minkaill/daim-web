@@ -32,7 +32,7 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
       ref={ref}
       className={`fixed ${
         isMobile ? "bottom-10" : "bottom-4"
-      } left-0 right-0 w-[90%] mx-auto bg-[#352c2cc7] overflow-hidden rounded-4xl`}
+      } left-0 right-0 w-[90%] mx-auto bg-[#352c2cd7] overflow-hidden rounded-4xl`}
       aria-label="Основная навигация"
       initial="hidden"
       animate="visible"
@@ -57,29 +57,32 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
 
                 {to === "/cart" && (
                   <AnimatePresence>
-                    <motion.div
-                      key={items.length}
-                      className="
-                    absolute bottom-7 left-7
-                    w-5 h-5
-                    flex items-center justify-center
-                    font-bold
-                    text-xs text-white
-                    bg-[#C69C72] rounded-full"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 25,
-                      }}
-                      aria-label={`В корзине ${items.length} ${
-                        items.length === 1 ? "товар" : "товара"
-                      }`}
-                    >
-                      {items.length}
-                    </motion.div>
+                    {items.length > 0 && (
+                      <motion.div
+                        key={items.length}
+                        className="
+                         absolute bottom-7 left-7
+                         w-5 h-5
+                         flex items-center justify-center
+                         font-bold
+                         text-xs text-white
+                         bg-[#C69C72] rounded-full"
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.5, opacity: 0 }} // 👈 плавное исчезновение
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 25,
+                          opacity: { duration: 0.3 }, // 👈 отдельно управляем прозрачностью
+                        }}
+                        aria-label={`В корзине ${items.length} ${
+                          items.length === 1 ? "товар" : "товара"
+                        }`}
+                      >
+                        {items.length}
+                      </motion.div>
+                    )}
                   </AnimatePresence>
                 )}
               </div>

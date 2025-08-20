@@ -51,7 +51,7 @@ export const InputAmountModal = ({
           onClick={handleBackdropClick}
         >
           <motion.div
-            className="bg-[#352c2cc7] relative w-full mx-5 rounded-xl p-6"
+            className="bg-[#352c2cd7] relative w-full mx-5 rounded-xl p-6"
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
@@ -64,7 +64,9 @@ export const InputAmountModal = ({
               <X size={24} className="text-white" />
             </button>
 
-            <h2 className="text-base font-bold mb-2 mt-4">Введите количество</h2>
+            <h2 className="text-base font-bold mb-2 mt-4">
+              Введите количество
+            </h2>
             <input
               type="number"
               inputMode="numeric"
