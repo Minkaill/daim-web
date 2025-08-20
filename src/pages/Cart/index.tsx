@@ -43,7 +43,12 @@ export const Cart = () => {
 
   const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
   const unitPrice = getPrice(totalQuantity);
+  const defaultPrice = 350 * totalQuantity;
   const totalPrice = unitPrice * totalQuantity;
+  const discount = defaultPrice - totalPrice;
+
+  const discountPercent =
+    defaultPrice > 0 ? Math.round((discount / defaultPrice) * 100) : 0;
 
   useEffect(() => {
     if (!tg) return;
@@ -72,9 +77,7 @@ export const Cart = () => {
         >
           {items.length > 0 && (
             <div className="w-full h-full flex items-center justify-between mb-3">
-              <h5 className="text-white text-lg">
-                Ваша корзина ({items.length})
-              </h5>
+              <h5 className="text-white text-base">Ваша корзина</h5>
 
               <button
                 onClick={clearAll}
@@ -111,20 +114,80 @@ export const Cart = () => {
 
         {items.length > 0 && (
           <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
             className={`w-full bg-[#241f1fc7] ${
-              isMobile ? "h-28" : "h-20"
+              isMobile ? "pb-12" : "pb-3"
             } p-3 fixed bottom-0 left-0`}
           >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+              className="flex items-center text-sm bg-[#352c2cc7] rounded-xl p-3 justify-between w-full mb-3"
+            >
+              <div className="flex flex-col w-full gap-1 text-gray-300">
+                <div className="w-full flex items-center justify-between">
+                  <p>Количество</p>
+
+                  <AnimatedNumber
+                    value={totalQuantity}
+                    color="text-white font-normal"
+                  />
+                </div>
+                <div className="w-full flex items-center justify-between">
+                  <p>Цена за шт</p>
+
+                  <AnimatedNumber
+                    value={unitPrice}
+                    currency
+                    color="text-white font-normal"
+                  />
+                </div>
+                <div className="w-full flex items-center justify-between">
+                  <p>Сумма товаров</p>
+
+                  <AnimatedNumber
+                    value={defaultPrice}
+                    currency
+                    color="text-white font-normal"
+                  />
+                </div>
+                <div className="w-full flex items-center justify-between">
+                  <p>Скидка</p>
+
+                  <AnimatedNumber
+                    value={discountPercent}
+                    discount
+                    color="text-white font-normal"
+                  />
+                </div>
+
+                <div className="w-full border-b border-gray-500/20 my-2"></div>
+
+                <div className="w-full text-base font-bold flex items-center justify-between">
+                  <p>Итого</p>
+
+                  <AnimatedNumber
+                    value={totalPrice}
+                    currency
+                    color="text-white font-normal"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
             <motion.button
               onClick={() => setOrderModal(true)}
               disabled={items.length === 0}
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
               className="w-full shimmer bg-[#4B2E2A] cursor-pointer disabled:opacity-60 disabled:cursor-no-drop disabled:pointer-events-none flex items-center justify-center gap-1 h-14 rounded-xl text-lg px-3"
             >
-              К оплате{" "}
-              <AnimatedNumber
-                value={totalPrice}
-                color="text-white font-normal"
-              />
+              Оплатить
             </motion.button>
           </motion.div>
         )}

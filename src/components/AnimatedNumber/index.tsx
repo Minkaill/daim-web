@@ -1,17 +1,18 @@
-import {
-  useMotionValue,
-  useSpring,
-} from "motion/react";
+import { useMotionValue, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
 
 interface AnimatedNumberProps {
   value: number;
   quantity?: number;
+  currency?: boolean;
+  discount?: boolean;
   color?: string;
 }
 
 export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
   value,
+  currency,
+  discount,
   color,
 }) => {
   const motionVal = useMotionValue(value);
@@ -34,7 +35,9 @@ export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
   return (
     <div className="flex items-center gap-2">
       <p className={`${color || "text-yellow-600"} font-bold`}>
-        {displayValue}₽
+        {displayValue}
+        {currency && "₽"}
+        {discount && "%"}
       </p>
 
       {/* <AnimatePresence>

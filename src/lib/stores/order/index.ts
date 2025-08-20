@@ -35,6 +35,7 @@ export const useOrderStore = create(
     createOrder: async (order) => {
       set((state) => {
         state.isPending = true;
+        state.isSuccess = false;
         state.error = null;
       });
 

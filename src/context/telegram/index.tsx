@@ -5,44 +5,76 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import TelegramWebApp from "@twa-dev/sdk";
+import WebApp from "@twa-dev/sdk";
 import type { WebAppUserType } from "../../models/telegram";
 
 export interface TelegramContextType {
-  tg: typeof TelegramWebApp | null;
+  tg: typeof WebApp | null;
   user: WebAppUserType | null;
   platform: string | null;
   isMobile: boolean;
+  isFullscreen: boolean;
 }
 
 const TelegramContext = createContext<TelegramContextType | null>(null);
 
+const isMobilePlatform = (p?: string | null) => p === "ios" || p === "android";
+
 export const TelegramProvider = ({ children }: { children: ReactNode }) => {
-  const [tg, setTg] = useState<typeof TelegramWebApp | null>(null);
   const [user, setUser] = useState<WebAppUserType | null>(null);
   const [platform, setPlatform] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
-    const webApp = TelegramWebApp;
+    WebApp.ready();
+    WebApp.expand(); // на десктопе просто развернется, на мобиле — тянет шторку
 
-    webApp.ready();
-    webApp.expand();
+    // платформа из SDK
+    const p = WebApp.platform ?? null;
+    setPlatform(p);
+    const mobile = isMobilePlatform(p);
+    setIsMobile(mobile);
 
-    const init = webApp.initDataUnsafe;
-    if (init?.user) {
-      setUser(init.user);
+    if (mobile && WebApp.requestFullscreen) {
+      WebApp.requestFullscreen();
+      WebApp.disableVerticalSwipes?.();
     }
 
-    const p = webApp.platform ?? null;
-    setPlatform(p);
-    setIsMobile(p === "android" || p === "ios");
+    // следим за изменением fullscreen (типизируем params как any из-за сигнатур SDK)
+    const onFsChange = (params: any) => {
+      setIsFullscreen(!!params?.is_fullscreen);
+    };
+    WebApp.onEvent("fullscreenChanged", onFsChange);
 
-    setTg(webApp);
+    // держим актуальную высоту (и на мобиле, и на десктопе)
+    const applyVH = () => {
+      document.documentElement.style.setProperty(
+        "--tg-vh",
+        `${WebApp.viewportHeight}px`
+      );
+      document.documentElement.style.setProperty(
+        "--tg-vh-stable",
+        `${WebApp.viewportStableHeight}px`
+      );
+    };
+    applyVH();
+    const onVpChange = () => applyVH();
+    WebApp.onEvent("viewportChanged", onVpChange);
+
+    // юзер
+    if (WebApp.initDataUnsafe?.user) setUser(WebApp.initDataUnsafe.user);
+
+    return () => {
+      WebApp.offEvent("fullscreenChanged", onFsChange as any);
+      WebApp.offEvent("viewportChanged", onVpChange as any);
+    };
   }, []);
 
   return (
-    <TelegramContext.Provider value={{ tg, user, platform, isMobile }}>
+    <TelegramContext.Provider
+      value={{ tg: WebApp, user, platform, isMobile, isFullscreen }}
+    >
       {children}
     </TelegramContext.Provider>
   );
@@ -50,8 +82,6 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 
 export const useTelegram = () => {
   const ctx = useContext(TelegramContext);
-  if (!ctx) {
-    throw new Error("useTelegram must be used within TelegramProvider");
-  }
+  if (!ctx) throw new Error("useTelegram must be used within TelegramProvider");
   return ctx;
 };

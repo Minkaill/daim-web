@@ -40,6 +40,16 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Заказ успешно оформлен 🎉");
+      setAddress("");
+      setPhone("");
+      onClose();
+      setTouched({ address: false, phone: false });
+    }
+  }, [isSuccess]);
+
   const phoneIsValid = /^(\+?\d[\d\s().-]{7,})$/.test(phone.trim());
   const addressIsValid = address.trim().length > 5;
   const formIsValid = phoneIsValid && addressIsValid;
@@ -75,20 +85,13 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
     const data: OrderBody = {
       address: address.trim(),
       phone: phoneDigits,
-      telegram_id: user!.id,
+      telegram_id: 5605356109,
       total_price_cents: totalPrice,
       items: cartItems,
     };
 
     try {
       await createOrder(data);
-
-      if (isSuccess) {
-        toast.success("Заказ успешно оформлен 🎉");
-        setAddress("");
-        setPhone("");
-        onClose();
-      }
     } catch (e: any) {
       toast.error("Ошибка при создании заказа");
       console.error(e);

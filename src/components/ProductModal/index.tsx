@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { IProduct } from "../../models/product";
 import { motion, AnimatePresence } from "motion/react";
-import { X, ShoppingCart, Check } from "lucide-react";
+import { X, ShoppingCart } from "lucide-react";
 import { useTelegram } from "../../context/telegram";
 import { PenLine } from "lucide-react";
 import { InputAmountModal } from "../InputAmountModal";
 import { useCartStore } from "../../lib/stores/cart";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   open: boolean;
@@ -21,8 +20,6 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
   const [amount, setAmount] = useState(20);
   const [imgReady, setImgReady] = useState(false);
   const [amountModal, setAmountModal] = useState(false);
-
-  const navigate = useNavigate();
 
   const { isMobile } = useTelegram();
   const { addItem, items } = useCartStore();
@@ -65,9 +62,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
 
   const onToggleItemInCart = () => {
     if (!product) return;
-    if (isInCart) {
-      navigate("/cart");
-    } else {
+    if (!isInCart) {
       addItem({ ...product, quantity: amount });
     }
   };
@@ -144,7 +139,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                 </p>
 
                 <div className="flex items-center gap-2 mt-3">
-                  <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-semibold text-[#0D0605] bg-[#D7AF8B] shadow-[0_2px_8px_rgba(215,175,139,.35)]">
+                  <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-semibold text-[#0D0605] bg-[#C69C72] shadow-[0_2px_8px_rgba(215,175,139,.35)]">
                     От 180₽
                   </span>
 
@@ -215,11 +210,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {isInCart ? (
-                      <Check color="#6FBF73" size={20} />
-                    ) : (
-                      <ShoppingCart size={20} />
-                    )}
+                    {isInCart ? "В корзине" : <ShoppingCart size={20} />}
                   </motion.span>
                 </motion.button>
               </div>

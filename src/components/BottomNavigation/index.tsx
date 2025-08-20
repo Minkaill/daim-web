@@ -1,4 +1,4 @@
-import { ShoppingCart, User, ShoppingBag } from "lucide-react";
+import { ShoppingCart, User, ShoppingBag, CreditCard } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { forwardRef } from "react";
@@ -14,6 +14,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { to: "/products", label: "Товары", Icon: ShoppingBag },
   { to: "/cart", label: "Корзина", Icon: ShoppingCart },
+  { to: "/orders", label: "Мои заказы", Icon: CreditCard },
   { to: "/profile", label: "Профиль", Icon: User },
 ];
 
@@ -51,7 +52,7 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
               aria-label={label}
             >
               <div className="flex flex-col relative items-center gap-1">
-                <Icon size={22} />
+                <Icon size={20} />
                 <p className="text-xs">{label}</p>
 
                 {to === "/cart" && (

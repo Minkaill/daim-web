@@ -66,15 +66,17 @@ export const Products = () => {
       >
         <motion.div
           variants={headerVariants}
-          className="bg-[#352c2cc7] w-full rounded-xl p-3 mb-4 flex items-center justify-between active:bg-[#241f1fc7] transition-all ease-in-out"
+          className="bg-[#352c2cc7] cursor-pointer w-full rounded-xl px-3 py-2 mb-1 flex items-center justify-between active:bg-[#241f1fc7] transition-all ease-in-out"
         >
-          <p>
+          <p className="text-xs">
             Daim Coffee{" "}
-            <span className="text-xs text-yellow-600">
-              (Правила использования)
-            </span>
+            <span className="text-yellow-600">(Правила использования)</span>
           </p>
-          <img src="/question.svg" alt="question" />
+          <img
+            className="opacity-50 w-5 h-5"
+            src="/question.svg"
+            alt="question"
+          />
         </motion.div>
 
         {products.map((product) => (

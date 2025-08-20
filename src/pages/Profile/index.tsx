@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useTelegram } from "../../context/telegram";
-import { Loader } from "../../components/Loader";
+import { UserSkeleton } from "../../components/UserSkeleton";
 
 const containerVariants = {
   hidden: {},
@@ -21,7 +21,7 @@ const blockVariants = {
 export const Profile: React.FC = () => {
   const { user: usr } = useTelegram();
 
-  if (!usr) return <Loader />;
+  if (!usr) return <UserSkeleton />;
 
   return (
     <motion.div
@@ -36,10 +36,9 @@ export const Profile: React.FC = () => {
       >
         <div className="absolute top-3 right-3 max-w-28 flex flex-wrap">
           <span className="text-gray-500/50">
-            @
             {usr && usr.username && usr.username.length > 50
-              ? usr.username.slice(0, 50) + "..."
-              : usr?.username}
+              ? `@${usr.username.slice(0, 50)}` + "..."
+              : `@${usr?.username}`}
           </span>
         </div>
 
