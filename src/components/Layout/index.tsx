@@ -33,7 +33,7 @@ export const Layout = ({ children }: LayoutProps) => {
       ro.disconnect();
       window.removeEventListener("resize", update);
     };
-  }, [isMobile]);
+  }, [isMobile, location.pathname]);
 
   return (
     <div
