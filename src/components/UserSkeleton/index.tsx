@@ -34,7 +34,7 @@ export const UserSkeleton: React.FC = () => {
         }
       `}</style>
 
-      <div className="bg-[#352c2cd7] rounded-xl relative flex flex-col items-center p-4 overflow-hidden">
+      <div className="bg-[#352c2cee] rounded-xl relative flex flex-col items-center p-4 overflow-hidden">
         <div className="w-28 h-28 rounded-full mb-3 bg-gray-600/50 shimmer" />
 
         <div className="w-32 h-5 rounded-md mb-2 bg-gray-600/50 shimmer" />

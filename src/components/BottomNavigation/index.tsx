@@ -30,22 +30,24 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <motion.nav
       ref={ref}
-      className={`fixed ${
-        isMobile ? "bottom-10" : "bottom-4"
-      } left-0 right-0 w-[90%] mx-auto bg-[#352c2cd7] overflow-hidden rounded-4xl`}
+      className={`fixed bottom-0 left-0 right-0
+              w-full ${isMobile ? "h-25 pt-1" : "h-auto pt-0"} 
+              bg-[#352c2c]
+              rounded-none
+               border-t border-[#4d3e3e6c]`}
       aria-label="Основная навигация"
       initial="hidden"
       animate="visible"
       variants={navVariants}
     >
-      <ul className={`flex `}>
+      <ul className="flex">
         {navItems.map(({ to, Icon, label }) => (
           <li key={to} className="flex-1">
             <NavLink
               to={to}
               className={({ isActive }) =>
                 [
-                  "flex py-3 items-center justify-center transition-colors duration-200 ease-in-out",
+                  "flex h-14 items-center justify-center transition-colors duration-200 ease-in-out",
                   isActive ? "text-white" : "text-gray-400",
                 ].join(" ")
               }
@@ -60,21 +62,18 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
                     {items.length > 0 && (
                       <motion.div
                         key={items.length}
-                        className="
-                         absolute bottom-7 left-7
-                         w-5 h-5
-                         flex items-center justify-center
-                         font-bold
-                         text-xs text-white
-                         bg-[#C69C72] rounded-full"
+                        className="absolute bottom-7 left-7 w-5 h-5
+                                   flex items-center justify-center
+                                   font-bold text-xs text-white
+                                   bg-[#C69C72] rounded-full"
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.5, opacity: 0 }} // 👈 плавное исчезновение
+                        exit={{ scale: 0.5, opacity: 0 }}
                         transition={{
                           type: "spring",
                           stiffness: 500,
                           damping: 25,
-                          opacity: { duration: 0.3 }, // 👈 отдельно управляем прозрачностью
+                          opacity: { duration: 0.3 },
                         }}
                         aria-label={`В корзине ${items.length} ${
                           items.length === 1 ? "товар" : "товара"

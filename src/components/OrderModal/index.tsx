@@ -143,7 +143,7 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
         >
           <motion.div
             ref={dialogRef}
-            className="relative w-full max-w-md bg-[#352c2cd7] rounded-2xl p-6 shadow-xl outline-none"
+            className="relative w-full max-w-md bg-[#352c2cee] rounded-2xl p-6 shadow-xl outline-none"
             {...variants.panel}
           >
             <button

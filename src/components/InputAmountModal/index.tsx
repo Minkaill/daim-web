@@ -51,7 +51,7 @@ export const InputAmountModal = ({
           onClick={handleBackdropClick}
         >
           <motion.div
-            className="bg-[#352c2cd7] relative w-full mx-5 rounded-xl p-6"
+            className="bg-[#352c2cee] relative w-full mx-5 rounded-xl p-6"
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}

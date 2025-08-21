@@ -15,10 +15,25 @@ export const Layout = ({ children }: LayoutProps) => {
   const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (navRef.current) {
-      setNavHeight(navRef.current.offsetHeight + 20);
-    }
-  }, []);
+    const el = navRef.current;
+    if (!el) return;
+
+    const update = () => {
+      setNavHeight(el.offsetHeight + 20);
+    };
+
+    update();
+
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+
+    window.addEventListener("resize", update);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, [isMobile]);
 
   return (
     <div

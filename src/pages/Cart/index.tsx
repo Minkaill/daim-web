@@ -72,7 +72,7 @@ export const Cart = () => {
         animate="visible"
       >
         <motion.div
-          className="bg-[#352c2cd7] rounded-xl p-3 flex flex-col"
+          className="bg-[#352c2cee] rounded-xl p-3 flex flex-col"
           variants={blockVariants}
         >
           {items.length > 0 && (
@@ -126,7 +126,7 @@ export const Cart = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: 0.2 }}
-              className="flex items-center text-sm bg-[#352c2cd7] rounded-xl p-3 justify-between w-full mb-3"
+              className="flex items-center text-sm bg-[#352c2cee] rounded-xl p-3 justify-between w-full mb-3"
             >
               <div className="flex flex-col w-full gap-1 text-gray-300">
                 <div className="w-full flex items-center justify-between">

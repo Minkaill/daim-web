@@ -95,13 +95,13 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
             <motion.div
               className={`px-3 pt-5 ${
                 isMobile ? "pb-12" : "pb-3"
-              } bg-[#352c2cd7] rounded-t-3xl w-full`}
+              } bg-[#352c2cee] rounded-t-3xl w-full`}
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: imgReady ? 0 : 100, opacity: imgReady ? 1 : 0 }}
               exit={{ y: 500, opacity: 0 }}
               transition={{ type: "spring", stiffness: 600, damping: 30 }}
             >
-              <div className="rounded-xl relative overflow-hidden w-full h-96">
+              <div className="rounded-xl relative overflow-hidden w-full h-[min(24rem,60svh)]">
                 <button
                   className="absolute p-1 cursor-pointer bg-gray-500/50 rounded-full top-3 right-3 z-10"
                   onClick={handleRequestClose}

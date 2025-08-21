@@ -2,8 +2,8 @@ import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 
 const blockVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.4 } },
 };
 
 export const CartEmpty = () => {
@@ -12,19 +12,19 @@ export const CartEmpty = () => {
   return (
     <motion.div
       variants={blockVariants}
-      className="bg-[#241f1fc7] w-full rounded-xl flex flex-col items-center justify-center"
+      className="w-full rounded-xl flex flex-col items-center justify-center"
     >
       <img
         src="/empty-cart.png"
-        className="w-50 h-50 opacity-55"
+        className="w-40 h-40 opacity-55"
         alt="empty_cart"
       />
 
-      <h4 className="font-bold text-base">Корзина пуста</h4>
+      <h4 className="text-base opacity-55">Корзина пуста</h4>
 
       <button
-        className="bg-[#4B2E2A]/10 w-full active:bg-gray-800/50 rounded-xl py-3 mt-5 cursor-pointer"
         onClick={() => navigate("/products")}
+        className="w-full mt-5 bg-[#4B2E2A] cursor-pointer py-3 rounded-xl text-white font-bold"
       >
         Вернуться
       </button>

@@ -56,7 +56,7 @@ export const Products = () => {
         animate="visible"
         className="flex flex-col gap-2"
       >
-        <div className="bg-[#352c2cd7] cursor-pointer w-full rounded-xl px-3 py-2 mb-1 flex items-center justify-between active:bg-[#241f1fc7] transition-all ease-in-out">
+        <div className="bg-[#352c2cee] cursor-pointer w-full rounded-xl px-3 py-2 mb-1 flex items-center justify-between active:bg-[#241f1fc7] transition-all ease-in-out">
           <p className="text-xs">
             Daim Coffee{" "}
             <span className="text-yellow-600">(Правила использования)</span>
