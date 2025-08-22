@@ -21,7 +21,7 @@ export interface IOrder {
 export interface User {
   name: string;
   telegram_id: number;
-  phone: any;
+  phone: string;
   id: number;
   created_at: string;
 }

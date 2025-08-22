@@ -22,8 +22,9 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
     phone: false,
   });
 
-  const { createOrder, isPending, isSuccess, error } = useOrderStore();
-  const { items } = useCartStore();
+  const { createOrder, setIsSuccess, isPending, isSuccess, error } =
+    useOrderStore();
+  const { items, clearAll } = useCartStore();
   const { user } = useTelegram();
 
   const dialogRef = useRef<HTMLDivElement | null>(null);
@@ -41,14 +42,12 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
   }, [open]);
 
   useEffect(() => {
-    if (isSuccess) {
-      toast.success("Заказ успешно оформлен 🎉");
-      setAddress("");
-      setPhone("");
-      onClose();
-      setTouched({ address: false, phone: false });
-    }
-  }, [isSuccess]);
+    if (open) setIsSuccess(false);
+  }, [open]);
+
+  useEffect(() => {
+    return () => setIsSuccess(false);
+  }, []);
 
   const phoneIsValid = /^(\+?\d[\d\s().-]{7,})$/.test(phone.trim());
   const addressIsValid = address.trim().length > 5;
@@ -61,7 +60,23 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
     quantity: item.quantity,
   }));
 
+  const onCloseModal = () => {
+    setAddress("");
+    setPhone("");
+    setTouched({ address: false, phone: false });
+    if (isSuccess) {
+      clearAll();
+    }
+    setIsSuccess(false);
+    onClose();
+  };
+
   const onSubmit = async () => {
+    if (isSuccess) {
+      clearAll();
+      onCloseModal();
+      return;
+    }
     if (isPending) return;
     setTouched({ address: true, phone: true });
 
@@ -85,7 +100,7 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
     const data: OrderBody = {
       address: address.trim(),
       phone: phoneDigits,
-      telegram_id: 5605356109,
+      telegram_id: user.id,
       total_price_cents: totalPrice,
       items: cartItems,
     };
@@ -99,20 +114,19 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget && !isPending) onClose();
+    if (e.target === e.currentTarget && !isPending) onCloseModal();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape" && !isPending) onClose();
+    if (e.key === "Escape" && !isPending) onCloseModal();
     if ((e.key === "Enter" || e.key === "NumpadEnter") && !isPending)
       onSubmit();
   };
 
   const onPhoneChange = (v: string) => {
-    if (!v.startsWith("+7")) {
-      v = "+7 " + v.replace(/[^0-9]/g, "");
-    }
-    setPhone(formatPhone(v));
+    const digits = v.replace(/\D/g, "");
+    const normalized = digits.startsWith("7") ? digits : "7" + digits;
+    setPhone(formatPhone("+ " + normalized)); // или твоя логика
   };
 
   const variants = {
@@ -150,108 +164,121 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
               type="button"
               aria-label="Закрыть"
               className="absolute p-1 cursor-pointer bg-gray-500/40 hover:bg-gray-500/60 transition rounded-full top-3 right-3 disabled:opacity-50"
-              onClick={onClose}
+              onClick={onCloseModal}
               disabled={isPending}
             >
               <X size={22} className="text-white" />
             </button>
 
-            <div className="flex flex-col gap-4">
-              <header className="mb-1">
-                <h2 id={titleId} className="text-lg font-bold">
-                  Оформление заказа
-                </h2>
-                <p id={descId} className="text-sm text-gray-300">
-                  Введите адрес и номер телефона для связи.
-                </p>
-              </header>
+            {!isSuccess ? (
+              <div className="flex flex-col gap-4">
+                <header className="mb-1">
+                  <h2 id={titleId} className="text-lg font-bold">
+                    Оформление заказа
+                  </h2>
+                  <p id={descId} className="text-sm text-gray-300">
+                    Введите адрес и номер телефона для связи.
+                  </p>
+                </header>
 
-              <div>
-                <label
-                  htmlFor="order-address"
-                  className="text-base font-semibold mb-2 inline-block"
-                >
-                  Адрес доставки
-                </label>
-                <input
-                  id="order-address"
-                  type="text"
-                  className="w-full p-3 min-h-12 border border-transparent bg-[#241f1fc7] rounded-xl text-white focus:outline-none placeholder:text-gray-400"
-                  placeholder="Город, улица, дом, квартира"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  onBlur={() => setTouched((t) => ({ ...t, address: true }))}
-                  autoComplete="street-address"
-                />
-                <AnimatePresence>
-                  {touched.address && !addressIsValid && (
-                    <motion.p
-                      className="mt-1 text-xs text-red-400"
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                    >
-                      Пожалуйста, укажите более точный адрес (не короче 6
-                      символов).
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="order-phone"
-                  className="text-base font-semibold mb-2 inline-block"
-                >
-                  Номер телефона
-                </label>
-                <input
-                  id="order-phone"
-                  type="tel"
-                  inputMode="tel"
-                  className="w-full p-3 min-h-12 border border-transparent bg-[#241f1fc7] rounded-xl text-white focus:outline-none placeholder:text-gray-400"
-                  placeholder="+7 (999) 123-45-67"
-                  value={phone}
-                  onChange={(e) => onPhoneChange(e.target.value)}
-                  onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
-                  autoComplete="tel"
-                />
-                <AnimatePresence>
-                  {touched.phone && !phoneIsValid && (
-                    <motion.p
-                      className="mt-1 text-xs text-red-400"
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                    >
-                      Введите корректный номер телефона (разрешены +, пробелы,
-                      скобки, тире).
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <AnimatePresence>
-                {error && (
-                  <motion.div
-                    className="rounded-xl text-xs bg-red-500/10 border border-red-500/30 p-3 text-red-300"
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
+                <div>
+                  <label
+                    htmlFor="order-address"
+                    className="text-base font-semibold mb-2 inline-block"
                   >
-                    Ошибка при отправке заказа. Попробуйте снова или обратитесь
-                    в поддержку
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                    Адрес доставки
+                  </label>
+                  <input
+                    id="order-address"
+                    type="text"
+                    className="w-full p-3 min-h-12 border border-transparent bg-[#241f1fc7] rounded-xl text-white focus:outline-none placeholder:text-gray-400"
+                    placeholder="Город, улица, дом, квартира"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    onBlur={() => setTouched((t) => ({ ...t, address: true }))}
+                    autoComplete="street-address"
+                  />
+                  <AnimatePresence>
+                    {touched.address && !addressIsValid && (
+                      <motion.p
+                        className="mt-1 text-xs text-red-400"
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                      >
+                        Пожалуйста, укажите более точный адрес (не короче 6
+                        символов).
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="order-phone"
+                    className="text-base font-semibold mb-2 inline-block"
+                  >
+                    Номер телефона
+                  </label>
+                  <input
+                    id="order-phone"
+                    type="tel"
+                    inputMode="tel"
+                    className="w-full p-3 min-h-12 border border-transparent bg-[#241f1fc7] rounded-xl text-white focus:outline-none placeholder:text-gray-400"
+                    placeholder="+7 (999) 123-45-67"
+                    value={phone}
+                    onChange={(e) => onPhoneChange(e.target.value)}
+                    onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
+                    autoComplete="tel"
+                  />
+                  <AnimatePresence>
+                    {touched.phone && !phoneIsValid && (
+                      <motion.p
+                        className="mt-1 text-xs text-red-400"
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                      >
+                        Введите корректный номер телефона (разрешены +, пробелы,
+                        скобки, тире).
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <AnimatePresence>
+                  {error && (
+                    <motion.div
+                      className="rounded-xl text-xs bg-red-500/10 border border-red-500/30 p-3 text-red-300"
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                    >
+                      Ошибка при отправке заказа. Попробуйте снова или
+                      обратитесь в поддержку
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <div className="flex mt-5 flex-col items-center justify-center gap-3 bg-green-500/10 border border-green-500/30 rounded-2xl p-6 shadow-md">
+                <motion.p
+                  className="text-green-400 font-semibold text-center text-sm"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  Заказ успешно оформлен 🎉
+                </motion.p>
+              </div>
+            )}
 
             <div className="w-full mt-5">
               <motion.button
                 onClick={onSubmit}
                 type="button"
                 role="button"
-                disabled={!formIsValid || isPending}
+                disabled={!isSuccess && (!formIsValid || isPending)}
                 className="w-full bg-[#4B2E2A] disabled:bg-[#C69C72]/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer py-3 rounded-xl text-white font-bold transition"
               >
                 <AnimatePresence mode="wait" initial={false}>
@@ -270,7 +297,7 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
                       />
                       Отправка...
                     </motion.span>
-                  ) : (
+                  ) : !isSuccess ? (
                     <motion.span
                       key="label"
                       initial={{ opacity: 0, y: 6 }}
@@ -279,6 +306,16 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
                       transition={{ duration: 0.18 }}
                     >
                       Отправить заказ
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="label"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.18 }}
+                    >
+                      Вернуться
                     </motion.span>
                   )}
                 </AnimatePresence>

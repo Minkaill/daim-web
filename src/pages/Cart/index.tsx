@@ -28,7 +28,7 @@ const listVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.15,
       delayChildren: 0.3,
     },
   },
@@ -63,6 +63,8 @@ export const Cart = () => {
     };
   }, [tg, navigate]);
 
+  if (items.length === 0) return <CartEmpty />;
+
   return (
     <>
       <motion.div
@@ -96,8 +98,6 @@ export const Cart = () => {
             >
               Загрузка...
             </motion.p>
-          ) : items.length === 0 ? (
-            <CartEmpty />
           ) : (
             <motion.ul
               className="space-y-3"

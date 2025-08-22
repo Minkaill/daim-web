@@ -12,7 +12,7 @@ export interface OrderDTO {
 }
 
 export interface BottleResponse {
-  user_id: number;
+  telegram_id: number;
   total_bottles: number;
 }
 

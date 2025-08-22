@@ -39,20 +39,26 @@ export const UserSkeleton: React.FC = () => {
 
         <div className="w-32 h-5 rounded-md mb-2 bg-gray-600/50 shimmer" />
 
-        <div className="w-full flex items-center justify-center gap-4 mt-3 bg-[#241f1fc7] p-3 rounded-xl">
-          <div className="flex flex-col items-center justify-center gap-1">
-            <div className="w-6 h-4 rounded-md bg-gray-600/40 shimmer" />
-            <div className="w-14 h-3 rounded-md bg-gray-600/30 shimmer" />
-          </div>
-
-          <div className="h-4 border-r border-gray-700" />
-
-          <div className="flex flex-col items-center justify-center gap-1">
-            <div className="w-10 h-4 rounded-md bg-gray-600/40 shimmer" />
-            <div className="w-14 h-3 rounded-md bg-gray-600/30 shimmer" />
-          </div>
-        </div>
+        <UserBottlesSkeleton />
       </div>
     </motion.div>
+  );
+};
+
+export const UserBottlesSkeleton = () => {
+  return (
+    <div className="w-full flex items-center justify-center gap-4 mt-3 bg-[#241f1fc7] p-3 rounded-xl">
+      <div className="flex flex-col items-center justify-center gap-1">
+        <div className="w-6 h-4 rounded-md bg-gray-600/40 shimmer" />
+        <div className="w-14 h-3 rounded-md bg-gray-600/30 shimmer" />
+      </div>
+
+      <div className="h-4 border-r border-gray-700" />
+
+      <div className="flex flex-col items-center justify-center gap-1">
+        <div className="w-10 h-4 rounded-md bg-gray-600/40 shimmer" />
+        <div className="w-14 h-3 rounded-md bg-gray-600/30 shimmer" />
+      </div>
+    </div>
   );
 };
