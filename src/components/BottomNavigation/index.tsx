@@ -1,7 +1,7 @@
 import { ShoppingCart, User, ShoppingBag, CreditCard } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { useTelegram } from "../../context/telegram";
 import { useCartStore } from "../../lib/stores/cart";
 
@@ -20,7 +20,19 @@ const navItems: NavItem[] = [
 
 export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
   const { items } = useCartStore();
-  const { isMobile } = useTelegram();
+  const { isMobile, haptics } = useTelegram();
+
+  const prevCount = useRef<number>(items.length);
+  useEffect(() => {
+    if (items.length !== prevCount.current) {
+      haptics?.success?.();
+      prevCount.current = items.length;
+    }
+  }, [items.length, haptics]);
+
+  const onNavClick = () => {
+    if (isMobile) haptics?.selection?.();
+  };
 
   const navVariants = {
     hidden: { opacity: 0 },
@@ -30,11 +42,9 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <motion.nav
       ref={ref}
-      className={`fixed bottom-0 left-0 right-0
-              w-full ${isMobile ? "h-25 pt-1" : "h-auto pt-0"} 
-              bg-[#352c2c]
-              rounded-none
-               border-t border-[#4d3e3e6c]`}
+      className={`fixed bottom-0 left-0 right-0 w-full ${
+        isMobile ? "h-25 pt-1" : "h-auto pt-0"
+      } bg-[#352c2c] rounded-none border-t border-[#4d3e3e6c]`}
       aria-label="Основная навигация"
       initial="hidden"
       animate="visible"
@@ -45,6 +55,7 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
           <li key={to} className="flex-1">
             <NavLink
               to={to}
+              onClick={onNavClick}
               className={({ isActive }) =>
                 [
                   "flex h-14 items-center justify-center transition-colors duration-200 ease-in-out",
@@ -53,7 +64,10 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
               }
               aria-label={label}
             >
-              <div className="flex flex-col relative items-center gap-1">
+              <motion.div
+                whileTap={{ scale: 0.92 }}
+                className="flex flex-col relative items-center gap-1"
+              >
                 <Icon size={20} />
                 <p className="text-xs">{label}</p>
 
@@ -62,10 +76,7 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
                     {items.length > 0 && (
                       <motion.div
                         key={items.length}
-                        className="absolute bottom-7 left-7 w-5 h-5
-                                   flex items-center justify-center
-                                   font-bold text-xs text-white
-                                   bg-[#C69C72] rounded-full"
+                        className="absolute bottom-7 left-7 w-4 h-4 flex items-center justify-center font-bold text-xs text-white bg-[#C69C72] rounded-full"
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.5, opacity: 0 }}
@@ -84,7 +95,7 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
                     )}
                   </AnimatePresence>
                 )}
-              </div>
+              </motion.div>
             </NavLink>
           </li>
         ))}

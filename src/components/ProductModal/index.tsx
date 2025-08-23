@@ -6,6 +6,7 @@ import { useTelegram } from "../../context/telegram";
 import { PenLine } from "lucide-react";
 import { InputAmountModal } from "../InputAmountModal";
 import { useCartStore } from "../../lib/stores/cart";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   open: boolean;
@@ -23,6 +24,8 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
 
   const { isMobile } = useTelegram();
   const { addItem, items } = useCartStore();
+
+  const navigate = useNavigate();
 
   const backdropRef = useRef<HTMLDivElement | null>(null);
 
@@ -64,6 +67,8 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
     if (!product) return;
     if (!isInCart) {
       addItem({ ...product, quantity: amount });
+    } else {
+      navigate("/cart");
     }
   };
 
@@ -101,7 +106,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
               exit={{ y: 500, opacity: 0 }}
               transition={{ type: "spring", stiffness: 600, damping: 30 }}
             >
-              <div className="rounded-xl relative overflow-hidden w-full h-[min(24rem,60svh)]">
+              <div className="relative flex justify-center items-center overflow-hidden w-full h-80">
                 <button
                   className="absolute p-1 cursor-pointer bg-gray-500/50 rounded-full top-3 right-3 z-10"
                   onClick={handleRequestClose}
@@ -113,15 +118,17 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                   <div className="absolute inset-0 bg-gray-700 animate-pulse" />
                 )}
 
-                <img
-                  src={currentProduct.image}
-                  alt={currentProduct.title}
-                  className="w-full h-full object-cover object-[100%_70%]"
-                  onLoad={() => setImgReady(true)}
-                  loading="eager"
-                  decoding="sync"
-                  fetchPriority="high"
-                />
+                <div className="w-full max-w-[500px] h-full rounded-xl overflow-hidden">
+                  <img
+                    src={currentProduct.image}
+                    alt={currentProduct.title}
+                    className="w-full h-full object-cover object-center opacity-80 scale-120"
+                    onLoad={() => setImgReady(true)}
+                    loading="eager"
+                    decoding="sync"
+                    fetchPriority="high"
+                  />
+                </div>
 
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -210,7 +217,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {isInCart ? "В корзине" : <ShoppingCart size={20} />}
+                    {isInCart ? "В корзину" : <ShoppingCart size={20} />}
                   </motion.span>
                 </motion.button>
               </div>

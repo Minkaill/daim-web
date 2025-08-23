@@ -29,7 +29,7 @@ export const CartItem = ({ product }: CartProps) => {
     setAmount(product.quantity);
   }, [product.quantity]);
 
-  const images = ["/daim.jpg", "/daim-2.jpg"];
+  const images = ["/daim-purple.PNG", "/daim-red.PNG"];
 
   return (
     <>

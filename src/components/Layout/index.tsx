@@ -35,6 +35,7 @@ export const Layout = ({ children }: LayoutProps) => {
     };
   }, [isMobile, location.pathname]);
 
+
   return (
     <div
       className={`px-4 pb-4 ${isMobile ? "pt-26" : "pt-4"} w-full`}

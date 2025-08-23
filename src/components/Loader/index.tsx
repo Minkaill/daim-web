@@ -1,9 +1,30 @@
-import cs from "./index.module.css";
+import cls from "./index.module.css";
 
-export const Loader = () => {
+type Props = {
+  visible: boolean;
+  progress: number;
+  title?: string;
+};
+
+export const LoaderOverlay = ({
+  visible,
+  progress,
+  title = "Daim Coffee",
+}: Props) => {
   return (
-    <div className={cs.wrapper}>
-      <span className={cs.loader}></span>
+    <div
+      className={`${cls.wrapper} ${visible ? cls.show : cls.hide}`}
+      aria-busy={visible}
+    >
+      <div className={cls.center}>
+        <h1 className={cls.title}>{title}</h1>
+        <div className={cls.bar}>
+          <div
+            className={cls.fill}
+            style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
+          />
+        </div>
+      </div>
     </div>
   );
 };

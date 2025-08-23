@@ -14,6 +14,13 @@ export interface TelegramContextType {
   platform: string | null;
   isMobile: boolean;
   isFullscreen: boolean;
+  haptics: {
+    click: () => void; // лёгкий отклик на клик
+    strong: () => void; // сильнее, для важных действий
+    success: () => void; // уведомление “успех”
+    error: () => void; // уведомление “ошибка”
+    selection: () => void; // смена выбора/таба
+  };
 }
 
 const TelegramContext = createContext<TelegramContextType | null>(null);
@@ -71,9 +78,38 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  const vibrate = (ms: number) => {
+    try {
+      (navigator as any)?.vibrate?.(ms);
+    } catch {}
+  };
+
+  const haptics = {
+    click: () => {
+      WebApp.HapticFeedback?.impactOccurred?.("light");
+      vibrate(10);
+    },
+    strong: () => {
+      WebApp.HapticFeedback?.impactOccurred?.("heavy");
+      vibrate(25);
+    },
+    success: () => {
+      WebApp.HapticFeedback?.notificationOccurred?.("success");
+      vibrate(20);
+    },
+    error: () => {
+      WebApp.HapticFeedback?.notificationOccurred?.("error");
+      vibrate(30);
+    },
+    selection: () => {
+      WebApp.HapticFeedback?.selectionChanged?.();
+      vibrate(8);
+    },
+  };
+
   return (
     <TelegramContext.Provider
-      value={{ tg: WebApp, user, platform, isMobile, isFullscreen }}
+      value={{ tg: WebApp, user, platform, isMobile, isFullscreen, haptics }}
     >
       {children}
     </TelegramContext.Provider>

@@ -26,14 +26,14 @@ const products = [
     description:
       "Cостав: кофе средней обжарки, сок смородины и сливы, фруктоза",
     volume: "250мл",
-    image: "/daim-2.jpg",
+    image: "/daim-purple.PNG",
   },
   {
     id: 2,
     title: "Граната",
     description: "Состав: кофе средней обжарки, сок гранаты, фруктоза",
     volume: "250мл",
-    image: "/daim.jpg",
+    image: "/daim-red.PNG",
   },
 ];
 
