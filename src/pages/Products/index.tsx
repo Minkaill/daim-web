@@ -3,6 +3,7 @@ import { Card } from "../../components/Card";
 import { motion } from "motion/react";
 import { ProductModal } from "../../components/ProductModal";
 import type { IProduct } from "../../models/product";
+import { useTelegram } from "../../context/telegram";
 
 const containerVariants = {
   hidden: {},
@@ -40,8 +41,11 @@ const products = [
 export const Products = () => {
   const [product, setProduct] = useState<IProduct | null>(null);
 
+  const { haptics } = useTelegram();
+
   const onSelectProduct = (product: IProduct) => {
     setProduct(product);
+    haptics.selection();
   };
 
   return (

@@ -6,7 +6,6 @@ import { TelegramProvider } from "./context/telegram";
 import "./index.css";
 import { Toaster } from "react-hot-toast";
 import { BootstrapGate } from "./components/BootstrapGate";
-import { OnResolved } from "./components/Resolved";
 
 const App = lazy(() => import("./App"));
 
@@ -15,13 +14,10 @@ createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <TelegramProvider>
         <Layout>
-          <BootstrapGate>
-            {(notifyReady: () => void) => (
-              <Suspense fallback={null}>
-                <OnResolved onReady={notifyReady} />
-                <App />
-              </Suspense>
-            )}
+          <BootstrapGate firstDurationMs={1500} nextDurationMs={450}>
+            <Suspense fallback={null}>
+              <App />
+            </Suspense>
           </BootstrapGate>
         </Layout>
       </TelegramProvider>

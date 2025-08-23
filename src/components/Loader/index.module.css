@@ -8,12 +8,6 @@
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.25s ease;
-  background-image: url("/preview.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: rgba(0, 0, 0, 0.4);
-  background-blend-mode: darken;
 }
 .show {
   opacity: 1;
@@ -21,7 +15,6 @@
 .hide {
   opacity: 0;
 }
-
 .center {
   display: grid;
   gap: 16px;
@@ -31,7 +24,6 @@
   color: #fff;
   font: 600 24px/1.2 system-ui, sans-serif;
 }
-
 .bar {
   width: 220px;
   height: 6px;
