@@ -27,8 +27,10 @@ export const Profile: React.FC = () => {
   const { bottles, isLoading, getBottles } = useOrderStore();
 
   useEffect(() => {
-    getBottles(5605356109);
-  }, []);
+    if (usr && usr.id) {
+      getBottles(usr.id);
+    }
+  }, [usr]);
 
   if (!usr) return <UserSkeleton />;
 

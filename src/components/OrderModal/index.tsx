@@ -85,7 +85,7 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
     const phoneOk = phoneDigits.length >= 10;
     const itemsOk = cartItems.length > 0;
     const totalOk = totalPrice > 0;
-    const userOk = !!user?.id;
+    const userOk = !!user?.id && !!user;
 
     if (!addressOk || !phoneOk || !itemsOk || !totalOk) {
       toast.error("Проверьте данные формы");

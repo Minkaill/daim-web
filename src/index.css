@@ -7,6 +7,13 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  margin: 0;
+  height: var(--tg-vh, 100dvh);
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -141,5 +148,13 @@ input[type="number"] {
   .shimmer::after {
     animation: none;
     opacity: 0;
+  }
+}
+
+@supports (height: 100svh) {
+  html,
+  body,
+  #root {
+    height: var(--tg-vh, 100svh);
   }
 }
