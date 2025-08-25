@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   useState,
   type ReactNode,
 } from "react";
@@ -15,11 +16,11 @@ export interface TelegramContextType {
   isMobile: boolean;
   isFullscreen: boolean;
   haptics: {
-    click: () => void; // лёгкий отклик на клик
-    strong: () => void; // сильнее, для важных действий
-    success: () => void; // уведомление “успех”
-    error: () => void; // уведомление “ошибка”
-    selection: () => void; // смена выбора/таба
+    click: () => void;
+    strong: () => void;
+    success: () => void;
+    error: () => void;
+    selection: () => void;
   };
 }
 
@@ -27,56 +28,15 @@ const TelegramContext = createContext<TelegramContextType | null>(null);
 
 const isMobilePlatform = (p?: string | null) => p === "ios" || p === "android";
 
+type FullscreenChangeEvent = { is_fullscreen?: boolean };
+type ViewportChangeEvent = { height?: number; is_state_stable?: boolean };
+
 export const TelegramProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<WebAppUserType | null>(null);
   const [platform, setPlatform] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-
-  useEffect(() => {
-    WebApp.ready();
-    WebApp.expand(); // на десктопе просто развернется, на мобиле — тянет шторку
-
-    // платформа из SDK
-    const p = WebApp.platform ?? null;
-    setPlatform(p);
-    const mobile = isMobilePlatform(p);
-    setIsMobile(mobile);
-
-    if (mobile && WebApp.requestFullscreen) {
-      WebApp.requestFullscreen();
-      WebApp.disableVerticalSwipes?.();
-    }
-
-    // следим за изменением fullscreen (типизируем params как any из-за сигнатур SDK)
-    const onFsChange = (params: any) => {
-      setIsFullscreen(!!params?.is_fullscreen);
-    };
-    WebApp.onEvent("fullscreenChanged", onFsChange);
-
-    // держим актуальную высоту (и на мобиле, и на десктопе)
-    const applyVH = () => {
-      document.documentElement.style.setProperty(
-        "--tg-vh",
-        `${WebApp.viewportHeight}px`
-      );
-      document.documentElement.style.setProperty(
-        "--tg-vh-stable",
-        `${WebApp.viewportStableHeight}px`
-      );
-    };
-    applyVH();
-    const onVpChange = () => applyVH();
-    WebApp.onEvent("viewportChanged", onVpChange);
-
-    // юзер
-    if (WebApp.initDataUnsafe?.user) setUser(WebApp.initDataUnsafe.user);
-
-    return () => {
-      WebApp.offEvent("fullscreenChanged", onFsChange as any);
-      WebApp.offEvent("viewportChanged", onVpChange as any);
-    };
-  }, []);
+  const [loading, setLoading] = useState(true);
 
   const vibrate = (ms: number) => {
     try {
@@ -84,28 +44,99 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
     } catch {}
   };
 
-  const haptics = {
-    click: () => {
-      WebApp.HapticFeedback?.impactOccurred?.("light");
-      vibrate(10);
-    },
-    strong: () => {
-      WebApp.HapticFeedback?.impactOccurred?.("heavy");
-      vibrate(25);
-    },
-    success: () => {
-      WebApp.HapticFeedback?.notificationOccurred?.("success");
-      vibrate(20);
-    },
-    error: () => {
-      WebApp.HapticFeedback?.notificationOccurred?.("error");
-      vibrate(30);
-    },
-    selection: () => {
-      WebApp.HapticFeedback?.selectionChanged?.();
-      vibrate(8);
-    },
-  };
+  const haptics = useMemo(
+    () => ({
+      click: () => {
+        WebApp.HapticFeedback?.impactOccurred?.("light");
+        vibrate(10);
+      },
+      strong: () => {
+        WebApp.HapticFeedback?.impactOccurred?.("heavy");
+        vibrate(25);
+      },
+      success: () => {
+        WebApp.HapticFeedback?.notificationOccurred?.("success");
+        vibrate(20);
+      },
+      error: () => {
+        WebApp.HapticFeedback?.notificationOccurred?.("error");
+        vibrate(30);
+      },
+      selection: () => {
+        WebApp.HapticFeedback?.selectionChanged?.();
+        vibrate(8);
+      },
+    }),
+    []
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof document === "undefined") {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      WebApp.ready();
+      WebApp.expand();
+    } catch {}
+
+    const p = WebApp.platform ?? null;
+    setPlatform(p);
+    const mobile = isMobilePlatform(p);
+    setIsMobile(mobile);
+
+    try {
+      if (mobile && (WebApp as any).requestFullscreen) {
+        (WebApp as any).requestFullscreen();
+        (WebApp as any).disableVerticalSwipes?.();
+      }
+    } catch {}
+
+    const applyVH = () => {
+      try {
+        const vh = WebApp.viewportHeight;
+        const vhs =
+          (WebApp as any).viewportStableHeight ?? WebApp.viewportHeight;
+        document.documentElement.style.setProperty("--tg-vh", `${vh}px`);
+        document.documentElement.style.setProperty(
+          "--tg-vh-stable",
+          `${vhs}px`
+        );
+      } catch {}
+    };
+
+    applyVH();
+
+    const onFsChange = (params: FullscreenChangeEvent) => {
+      setIsFullscreen(Boolean(params?.is_fullscreen));
+    };
+
+    const onVpChange = (_: ViewportChangeEvent) => {
+      applyVH();
+    };
+
+    try {
+      WebApp.onEvent("fullscreenChanged", onFsChange as any);
+      WebApp.onEvent("viewportChanged", onVpChange as any);
+    } catch {}
+
+    const initUser = WebApp.initDataUnsafe?.user ?? null;
+    if (!initUser) {
+      console.warn("No Telegram user data found in initDataUnsafe");
+    }
+    setUser(initUser);
+    setLoading(false);
+
+    return () => {
+      try {
+        WebApp.offEvent("fullscreenChanged", onFsChange as any);
+        WebApp.offEvent("viewportChanged", onVpChange as any);
+      } catch {}
+    };
+  }, []);
+
+  if (!user && !loading) return <p>Запуск приложения только через Telegram</p>;
 
   return (
     <TelegramContext.Provider

@@ -25,7 +25,7 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
   const { createOrder, setIsSuccess, isPending, isSuccess, error } =
     useOrderStore();
   const { items, clearAll } = useCartStore();
-  const { user } = useTelegram();
+  const { user, haptics } = useTelegram();
 
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
@@ -48,6 +48,12 @@ export const OrderModal = ({ open, totalPrice, onClose }: Props) => {
   useEffect(() => {
     return () => setIsSuccess(false);
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      haptics.success();
+    }
+  }, [isSuccess]);
 
   const phoneIsValid = /^(\+?\d[\d\s().-]{7,})$/.test(phone.trim());
   const addressIsValid = address.trim().length > 5;

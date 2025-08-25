@@ -34,7 +34,7 @@ export const Card: React.FC<CardProps> = ({ product, onSelectProduct }) => {
     >
       <div className="w-20 flex-shrink-0 h-full rounded-xl overflow-hidden mr-4">
         <img
-          className="w-full h-full opacity-80 object-cover object-center scale-160"
+          className="w-full h-full opacity-80 object-cover object-center scale-180"
           src={product.image}
           alt={product.title}
         />

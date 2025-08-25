@@ -23,6 +23,7 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
   const { isMobile, haptics } = useTelegram();
 
   const prevCount = useRef<number>(items.length);
+
   useEffect(() => {
     if (items.length !== prevCount.current) {
       haptics?.success?.();
@@ -31,7 +32,9 @@ export const BottomNavigation = forwardRef<HTMLDivElement>((_, ref) => {
   }, [items.length, haptics]);
 
   const onNavClick = () => {
-    if (isMobile) haptics?.selection?.();
+    if (isMobile) {
+      haptics.selection();
+    }
   };
 
   const navVariants = {

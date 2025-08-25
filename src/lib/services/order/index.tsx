@@ -7,15 +7,18 @@ export const createOrder = async (order: OrderBody): Promise<OrderResponse> => {
   return data;
 };
 
+type NewType = {
+  telegram_id: number;
+  title?: string;
+  status?: string;
+  limit?: number;
+};
+
 export const getMyOrders = async ({
   telegram_id,
   title,
   status,
-}: {
-  telegram_id: number;
-  title?: string;
-  status?: string;
-}): Promise<IOrder[]> => {
+}: NewType): Promise<IOrder[]> => {
   const params: Record<string, string | number> = {};
 
   if (title) params.title = title;

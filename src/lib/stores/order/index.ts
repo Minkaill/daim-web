@@ -25,7 +25,7 @@ interface OrderStore extends OrderState {
   createOrder: (order: OrderBody) => Promise<OrderResponse | null>;
   getMyOrders: (
     telegram_id: number,
-    opts?: { title?: string; status?: string }
+    opts?: { title?: string; status?: string; limit?: number }
   ) => Promise<IOrder[] | null>;
   getBottles: (telegram_id: number) => Promise<BottleResponse | null>;
   resetError: () => void;
@@ -76,7 +76,10 @@ export const useOrderStore = create(
         state.error = null;
       });
       try {
-        const response = await getMyOrders({ telegram_id, ...opts });
+        const response = await getMyOrders({
+          telegram_id,
+          ...opts,
+        });
         set((state) => {
           state.orders = response;
           state.isLoading = false;

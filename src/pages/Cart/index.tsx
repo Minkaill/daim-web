@@ -39,7 +39,7 @@ export const Cart = () => {
 
   const navigate = useNavigate();
   const { items, loading, clearAll } = useCartStore();
-  const { tg, isMobile } = useTelegram();
+  const { tg, isMobile, haptics } = useTelegram();
 
   const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
   const unitPrice = getPrice(totalQuantity);
@@ -62,6 +62,11 @@ export const Cart = () => {
       tg.BackButton.hide();
     };
   }, [tg, navigate]);
+
+  const onPuy = () => {
+    haptics.click();
+    setOrderModal(true);
+  };
 
   if (items.length === 0) return <CartEmpty />;
 
@@ -180,7 +185,7 @@ export const Cart = () => {
             </motion.div>
 
             <motion.button
-              onClick={() => setOrderModal(true)}
+              onClick={onPuy}
               disabled={items.length === 0}
               whileTap={{ scale: 0.95 }}
               whileHover={{ scale: 1.02 }}

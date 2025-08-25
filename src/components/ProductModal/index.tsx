@@ -122,7 +122,7 @@ export const ProductModal = ({ open, product, onClose }: Props) => {
                   <img
                     src={currentProduct.image}
                     alt={currentProduct.title}
-                    className="w-full h-full object-cover object-center opacity-80 scale-120"
+                    className="w-full h-full object-cover object-center opacity-80 scale-120 min-[420px]:scale-100"
                     onLoad={() => setImgReady(true)}
                     loading="eager"
                     decoding="sync"
